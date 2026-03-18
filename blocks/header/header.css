@@ -433,11 +433,18 @@ header nav .nav-sections ul > li > ul > li {
   header nav .nav-sections .default-content-wrapper > ul > li > ul > li > ul > li.nav-subgroup-header > strong a {
     color: #363d42;
     font-weight: 700;
+    border-left: none;
+    padding: 0;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li > ul > li > ul > li.nav-subgroup-header:hover > strong {
     border-left-color: #6b05a8;
     background: #f2f3fb;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li > ul > li.nav-subgroup-header > strong a:hover {
+    border-left: none;
+    background: none;
   }
 
   /* sub-group nested items (4th level) */
