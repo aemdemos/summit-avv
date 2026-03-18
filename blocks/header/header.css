@@ -308,8 +308,8 @@ header nav .nav-sections ul > li > ul > li {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
+    left: 16px;
+    right: 16px;
     height: 4px;
     background: #6b05a8;
     opacity: 0;
