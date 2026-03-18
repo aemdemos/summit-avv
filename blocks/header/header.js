@@ -131,6 +131,13 @@ export default async function decorate(block) {
     if (section) section.classList.add(`nav-${c}`);
   });
 
+  // Unwrap <p> tags from list items (DA wraps links in <p> tags)
+  nav.querySelectorAll('li > p').forEach((p) => {
+    const parent = p.parentElement;
+    while (p.firstChild) parent.insertBefore(p.firstChild, p);
+    p.remove();
+  });
+
   const navBrand = nav.querySelector('.nav-brand');
   const brandLink = navBrand.querySelector('.button');
   if (brandLink) {
