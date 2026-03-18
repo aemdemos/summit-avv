@@ -194,23 +194,16 @@ export default async function decorate(block) {
 
   // Language switcher: detect globe icon with nested language list
   if (navUtility) {
-    const globeItem = navUtility.querySelector('.icon-globe');
-    if (globeItem) {
-      const globeLi = globeItem.closest('li');
+    const globeIcon = navUtility.querySelector('.icon-globe');
+    if (globeIcon) {
+      const globeLi = globeIcon.closest('li');
       const langList = globeLi.querySelector('ul');
       if (langList) {
         globeLi.classList.add('nav-lang-switcher');
         langList.classList.add('nav-lang-dropdown');
         langList.setAttribute('aria-expanded', 'false');
-        // move flag icons inside the links for proper layout
-        langList.querySelectorAll('li').forEach((li) => {
-          const icon = li.querySelector('.icon');
-          const link = li.querySelector('a');
-          if (icon && link) {
-            link.prepend(icon);
-          }
-        });
-        globeItem.addEventListener('click', (e) => {
+        const globeLink = globeIcon.closest('a') || globeIcon;
+        globeLink.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
           const expanded = langList.getAttribute('aria-expanded') === 'true';
