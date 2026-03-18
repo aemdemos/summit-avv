@@ -638,5 +638,6 @@ header .nav-search-overlay.active {
 @media (width >= 900px) {
   header .nav-wrapper {
     padding-top: 39px;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 16%);
   }
 }
