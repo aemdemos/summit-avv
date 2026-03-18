@@ -86,6 +86,7 @@
     --heading-font-size-m: 22px;
     --heading-font-size-s: 20px;
     --heading-font-size-xs: 18px;
+    --header-height: calc(var(--nav-height) + 39px);
   }
 }
 
@@ -119,7 +120,7 @@ footer .footer[data-block-status="loaded"] {
 
 @media (width >= 900px) {
   body[data-breadcrumbs] {
-    --header-height: calc(var(--nav-height) + var(--breadcrumbs-height));
+    --header-height: calc(var(--nav-height) + 39px + var(--breadcrumbs-height));
   }
 }
 
