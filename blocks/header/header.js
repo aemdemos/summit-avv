@@ -1,5 +1,6 @@
-import { getMetadata } from '../../scripts/aem.js';
+import { getMetadata, DOMPURIFY, decorateIcons } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
+import { ensureDOMPurify } from '../../scripts/scripts.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
@@ -108,70 +109,117 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   }
 }
 
-function getDirectTextContent(menuItem) {
-  const menuLink = menuItem.querySelector(':scope > :where(a,p)');
-  if (menuLink) {
-    return menuLink.textContent.trim();
+function decorateNavBrand(nav) {
+  const navBrand = nav.querySelector('.nav-brand');
+  const brandLink = navBrand.querySelector('.button');
+  if (brandLink) {
+    brandLink.className = '';
+    brandLink.closest('.button-container').className = '';
   }
-  return Array.from(menuItem.childNodes)
-    .filter((n) => n.nodeType === Node.TEXT_NODE)
-    .map((n) => n.textContent)
-    .join(' ');
 }
 
-const MAX_BREADCRUMB_DEPTH = 20;
-
-async function buildBreadcrumbsFromNavTree(nav, currentUrl) {
-  const crumbs = [];
-
-  const homeUrl = document.querySelector('.nav-brand a[href]').href;
-
-  let menuItem = Array.from(nav.querySelectorAll('a')).find((a) => a.href === currentUrl);
-  if (menuItem) {
-    let depth = 0;
-    do {
-      const link = menuItem.querySelector(':scope > a');
-      crumbs.unshift({ title: getDirectTextContent(menuItem), url: link ? link.href : null });
-      menuItem = menuItem.closest('ul')?.closest('li');
-      depth += 1;
-    } while (menuItem && depth < MAX_BREADCRUMB_DEPTH);
-  } else if (currentUrl !== homeUrl) {
-    crumbs.unshift({ title: getMetadata('og:title'), url: currentUrl });
-  }
-
-  crumbs.unshift({ title: 'Home', url: homeUrl });
-
-  // last link is current page and should not be linked
-  if (crumbs.length > 1) {
-    crumbs.at(-1).url = null;
-  }
-  crumbs.at(-1)['aria-current'] = 'page';
-  return crumbs;
+function decorateNavUtility(nav) {
+  const navUtility = nav.querySelector('.nav-utility');
+  if (!navUtility) return;
+  navUtility.querySelectorAll('.button-container').forEach((bc) => {
+    bc.classList.remove('button-container');
+    const btn = bc.querySelector('.button');
+    if (btn) btn.classList.remove('button');
+  });
 }
 
-async function buildBreadcrumbs() {
-  const breadcrumbs = document.createElement('nav');
-  breadcrumbs.className = 'breadcrumbs';
+function decorateNavSections(nav) {
+  const navSections = nav.querySelector('.nav-sections');
+  if (!navSections) return;
+  navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
+    if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
+    navSection.addEventListener('mouseenter', () => {
+      if (isDesktop.matches) {
+        toggleAllNavSections(navSections);
+        navSection.setAttribute('aria-expanded', 'true');
+      }
+    });
+    navSection.addEventListener('mouseleave', () => {
+      if (isDesktop.matches) navSection.setAttribute('aria-expanded', 'false');
+    });
+  });
+  navSections.querySelectorAll('.button-container').forEach((buttonContainer) => {
+    buttonContainer.classList.remove('button-container');
+    buttonContainer.querySelector('.button').classList.remove('button');
+  });
+  navSections.querySelectorAll(':scope .default-content-wrapper > ul > li > ul > li > ul > li').forEach((subItem) => {
+    if (subItem.querySelector(':scope > ul')) subItem.classList.add('nav-subgroup');
+    else if (subItem.querySelector(':scope > strong')) subItem.classList.add('nav-subgroup-header');
+    if (subItem.querySelector('picture, img')) subItem.classList.add('nav-image');
+  });
+}
 
-  const crumbs = await buildBreadcrumbsFromNavTree(document.querySelector('.nav-sections'), document.location.href);
-
-  const ol = document.createElement('ol');
-  ol.append(...crumbs.map((item) => {
-    const li = document.createElement('li');
-    if (item['aria-current']) li.setAttribute('aria-current', item['aria-current']);
-    if (item.url) {
-      const a = document.createElement('a');
-      a.href = item.url;
-      a.textContent = item.title;
-      li.append(a);
-    } else {
-      li.textContent = item.title;
+function decorateLanguageSwitcher(nav) {
+  const navUtility = nav.querySelector('.nav-utility');
+  if (!navUtility) return;
+  let langTrigger = navUtility.querySelector('a[href="#lang"]');
+  if (!langTrigger) {
+    navUtility.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((li) => {
+      if (langTrigger) return;
+      const link = li.querySelector(':scope > a');
+      const spanIcon = li.querySelector(':scope > span.icon, :scope > .icon');
+      const hasLangList = li.querySelector(':scope > ul');
+      if (link && link.querySelector('.icon') && !link.textContent.trim() && hasLangList) {
+        langTrigger = link;
+      } else if (spanIcon && hasLangList) {
+        langTrigger = spanIcon;
+      }
+    });
+  }
+  if (!langTrigger) return;
+  const langLi = langTrigger.closest('li');
+  const langList = langLi.querySelector('ul');
+  if (!langList) return;
+  langLi.classList.add('nav-lang-switcher');
+  langList.classList.add('nav-lang-dropdown');
+  langList.setAttribute('aria-expanded', 'false');
+  langList.querySelectorAll('li').forEach((item) => {
+    const icon = item.querySelector(':scope > span.icon, :scope > .icon');
+    const link = item.querySelector(':scope > a');
+    if (icon && link) link.insertBefore(icon, link.firstChild);
+  });
+  if (langTrigger.tagName === 'SPAN') {
+    langTrigger.setAttribute('role', 'button');
+    langTrigger.setAttribute('tabindex', '0');
+    langTrigger.setAttribute('aria-label', 'Language');
+    langTrigger.setAttribute('aria-expanded', 'false');
+    langTrigger.setAttribute('aria-haspopup', 'true');
+  }
+  const setExpanded = (expanded) => {
+    langList.setAttribute('aria-expanded', expanded);
+    if (langTrigger.tagName === 'SPAN') langTrigger.setAttribute('aria-expanded', expanded);
+  };
+  langTrigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setExpanded(langList.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+  });
+  langTrigger.addEventListener('keydown', (e) => {
+    if (e.code === 'Enter' || e.code === 'Space') {
+      e.preventDefault();
+      setExpanded(langList.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
     }
-    return li;
-  }));
+  });
+  document.addEventListener('click', (e) => {
+    if (!langLi.contains(e.target)) setExpanded('false');
+  });
+}
 
-  breadcrumbs.append(ol);
-  return breadcrumbs;
+function decorateNavTools(nav) {
+  const navTools = nav.querySelector('.nav-tools');
+  if (!navTools) return;
+  navTools.querySelectorAll('.button-container').forEach((bc) => {
+    bc.classList.remove('button-container');
+    const btn = bc.querySelector('.button');
+    if (btn) btn.classList.remove('button');
+  });
+  const search = navTools.querySelector('a[href*="search"]');
+  if (search) search.setAttribute('aria-label', 'Search');
 }
 
 /**
@@ -179,62 +227,44 @@ async function buildBreadcrumbs() {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  // load nav as fragment
+  await ensureDOMPurify();
+
   const navMeta = getMetadata('nav');
   const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
   const fragment = await loadFragment(navPath);
 
-  // decorate nav DOM
   block.textContent = '';
   const nav = document.createElement('nav');
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
 
-  const classes = ['brand', 'sections', 'tools'];
-  classes.forEach((c, i) => {
+  ['brand', 'utility', 'sections', 'tools'].forEach((c, i) => {
     const section = nav.children[i];
     if (section) section.classList.add(`nav-${c}`);
   });
 
-  const navBrand = nav.querySelector('.nav-brand');
-  const brandLink = navBrand.querySelector('.button');
-  if (brandLink) {
-    brandLink.className = '';
-    brandLink.closest('.button-container').className = '';
-  }
+  nav.querySelectorAll('li > p').forEach((p) => {
+    const parent = p.parentElement;
+    while (p.firstChild) parent.insertBefore(p.firstChild, p);
+    p.remove();
+  });
+
+  decorateNavBrand(nav);
+  decorateNavUtility(nav);
+  decorateNavSections(nav);
+  decorateLanguageSwitcher(nav);
+  decorateNavTools(nav);
+  decorateIcons(nav);
 
   const navSections = nav.querySelector('.nav-sections');
-  if (navSections) {
-    navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
-      if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-      navSection.addEventListener('click', () => {
-        if (isDesktop.matches) {
-          const expanded = navSection.getAttribute('aria-expanded') === 'true';
-          toggleAllNavSections(navSections);
-          navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        }
-      });
-    });
-    navSections.querySelectorAll('.button-container').forEach((buttonContainer) => {
-      buttonContainer.classList.remove('button-container');
-      buttonContainer.querySelector('.button').classList.remove('button');
-    });
-  }
-
   const navTools = nav.querySelector('.nav-tools');
-  if (navTools) {
-    const search = navTools.querySelector('a[href*="search"]');
-    if (search && search.textContent === '') {
-      search.setAttribute('aria-label', 'Search');
-    }
-  }
 
   // hamburger for mobile
   const hamburger = document.createElement('div');
   hamburger.classList.add('nav-hamburger');
-  hamburger.innerHTML = `<button type="button" aria-controls="nav" aria-label="Open navigation">
+  hamburger.innerHTML = window.DOMPurify.sanitize(`<button type="button" aria-controls="nav" aria-label="Open navigation">
       <span class="nav-hamburger-icon"></span>
-    </button>`;
+    </button>`, DOMPURIFY);
   hamburger.addEventListener('click', () => toggleMenu(nav, navSections));
   nav.prepend(hamburger);
   nav.setAttribute('aria-expanded', 'false');
@@ -247,7 +277,58 @@ export default async function decorate(block) {
   navWrapper.append(nav);
   block.append(navWrapper);
 
-  if (getMetadata('breadcrumbs').toLowerCase() === 'true') {
-    navWrapper.append(await buildBreadcrumbs());
+  // Search form: intercept search icon click and show search bar
+  if (navTools) {
+    const searchLink = navTools.querySelector('a[href*="search"]');
+    if (searchLink) {
+      const searchBar = document.createElement('div');
+      searchBar.className = 'nav-search-bar';
+      searchBar.setAttribute('aria-expanded', 'false');
+      searchBar.innerHTML = window.DOMPurify.sanitize(`
+        <div class="nav-search-bar-content">
+          <span class="icon icon-search nav-search-icon"><img data-icon-name="search" src="/icons/search.svg" alt="" loading="lazy"></span>
+          <input type="text" class="nav-search-input" placeholder="Search by product name or partner or keyword" aria-label="Search">
+          <button type="button" class="nav-search-close" aria-label="Close search">
+            <span class="icon icon-close"><img data-icon-name="close" src="/icons/close.svg" alt="" loading="lazy"></span>
+          </button>
+        </div>
+      `, DOMPURIFY);
+      const searchOverlay = document.createElement('div');
+      searchOverlay.className = 'nav-search-overlay';
+
+      const openSearch = () => {
+        searchBar.setAttribute('aria-expanded', 'true');
+        searchOverlay.classList.add('active');
+        searchBar.querySelector('.nav-search-input').focus();
+      };
+      const closeSearch = () => {
+        searchBar.setAttribute('aria-expanded', 'false');
+        searchOverlay.classList.remove('active');
+        searchBar.querySelector('.nav-search-input').value = '';
+      };
+
+      searchLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openSearch();
+      });
+      searchBar.querySelector('.nav-search-close').addEventListener('click', closeSearch);
+      searchOverlay.addEventListener('click', closeSearch);
+      searchBar.querySelector('.nav-search-input').addEventListener('keydown', (e) => {
+        if (e.code === 'Enter') {
+          const input = e.target;
+          if (input !== null && input !== undefined && input instanceof HTMLInputElement) {
+            const val = input.value;
+            const query = typeof val === 'string' ? val.trim() : '';
+            if (query.length > 0) {
+              window.location.href = `/search?q=${encodeURIComponent(query)}`;
+            }
+          }
+        }
+        if (e.code === 'Escape') closeSearch();
+      });
+
+      navWrapper.append(searchBar);
+      navWrapper.append(searchOverlay);
+    }
   }
 }

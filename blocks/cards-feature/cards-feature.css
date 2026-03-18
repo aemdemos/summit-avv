@@ -1,0 +1,66 @@
+/* cards-feature block - AVEVA card grids (customer stories, icon cards) */
+main .cards-feature > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-m);
+}
+
+main .cards-feature > ul > li {
+  background-color: #fff;
+  overflow: hidden;
+  padding-bottom: var(--spacing-m);
+}
+
+main .cards-feature .cards-feature-card-image {
+  line-height: 0;
+  margin-bottom: var(--spacing-s);
+}
+
+main .cards-feature > ul > li img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+main .cards-feature .cards-feature-card-body {
+  padding: 0 var(--spacing-s);
+}
+
+main .cards-feature .cards-feature-card-body h3 {
+  font-weight: 500;
+  font-size: var(--heading-font-size-l);
+  color: var(--text-color);
+  margin-bottom: var(--spacing-xs);
+}
+
+main .cards-feature .cards-feature-card-body p {
+  color: var(--text-color-light);
+  font-size: var(--body-font-size-s);
+  line-height: 1.5;
+}
+
+main .cards-feature .cards-feature-card-body a.button {
+  background-color: var(--dark-color);
+  color: #fff;
+  font-size: var(--body-font-size-s);
+  padding: 12px 24px;
+}
+
+main .cards-feature .cards-feature-card-body a.button:hover {
+  background-color: var(--text-color);
+}
+
+@media (width >= 600px) {
+  main .cards-feature > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  main .cards-feature > ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
