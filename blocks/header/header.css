@@ -6,6 +6,12 @@ header .nav-wrapper {
   position: fixed;
 }
 
+@media (width >= 1920px) {
+  header .nav-wrapper {
+    width: 1920px;
+  }
+}
+
 header nav {
   box-sizing: border-box;
   display: grid;
@@ -161,6 +167,7 @@ header nav .nav-utility {
     top: 0;
     left: 0;
     right: 0;
+    height: var(--utility-bar-height);
     background: linear-gradient(270deg, #6b05a8, #3d1252);
     padding: 0 32px;
     z-index: 3;
@@ -168,6 +175,7 @@ header nav .nav-utility {
 
   header nav .nav-utility .default-content-wrapper {
     max-width: 1440px;
+    height: 100%;
     margin: 0 auto;
   }
 
@@ -177,6 +185,7 @@ header nav .nav-utility {
     align-items: center;
     gap: 0;
     list-style: none;
+    height: 100%;
     margin: 0;
     padding: 0;
   }
@@ -189,19 +198,21 @@ header nav .nav-utility {
     color: #fff;
     font-size: 14px;
     font-weight: 400;
-    padding: 10px 12px;
+    padding: 0 12px;
+    line-height: var(--utility-bar-height);
     display: block;
     white-space: nowrap;
   }
 
   header nav .nav-utility ul li a:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
 
   header nav .nav-utility ul li .icon {
     display: inline-flex;
     align-items: center;
-    padding: 10px 12px;
+    height: var(--utility-bar-height);
+    padding: 0 12px;
     cursor: pointer;
   }
 
@@ -290,6 +301,10 @@ header nav .nav-sections ul > li > ul > li {
     height: var(--nav-height);
   }
 
+  header nav .nav-sections .default-content-wrapper > ul > li > a {
+    text-decoration: none;
+  }
+
   /* purple underline indicator at bottom of nav bar */
   header nav .nav-sections .default-content-wrapper > ul > li::after {
     content: '';
@@ -301,6 +316,7 @@ header nav .nav-sections ul > li > ul > li {
     background: #6b05a8;
     opacity: 0;
     transition: opacity 0.085s ease-in-out;
+    z-index: 11;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li:hover::after,
@@ -325,7 +341,7 @@ header nav .nav-sections ul > li > ul > li {
     position: fixed;
     left: 0;
     right: 0;
-    top: calc(39px + var(--nav-height));
+    top: calc(var(--utility-bar-height) + var(--nav-height));
     padding: 27px max(32px, calc((100vw - 1392px) / 2)) 38px;
     background-color: #fff;
     white-space: initial;
@@ -360,6 +376,7 @@ header nav .nav-sections ul > li > ul > li {
   header nav .nav-sections .default-content-wrapper > ul > li > ul > li > a:hover {
     border-left-color: #6b05a8;
     background: #f2f3fb;
+    text-decoration: none;
   }
 
   /* mega-menu sub-items */
@@ -385,6 +402,7 @@ header nav .nav-sections ul > li > ul > li {
   header nav .nav-sections .default-content-wrapper > ul > li > ul > li > ul > li a:hover {
     border-left-color: #6b05a8;
     background: #f2f3fb;
+    text-decoration:none;
   }
 
   /* sub-group separator (split columns) */
@@ -634,7 +652,7 @@ header .nav-search-overlay.active {
 /* offset page content for fixed header */
 @media (width >= 900px) {
   header .nav-wrapper {
-    padding-top: 39px;
+    padding-top: var(--utility-bar-height);
     box-shadow: 0 3px 6px rgb(0 0 0 / 16%);
   }
 }
