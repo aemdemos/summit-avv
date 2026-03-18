@@ -332,18 +332,32 @@ header nav .nav-sections ul > li > ul > li {
     position: relative;
   }
 
+  /* dark overlay behind mega-menu */
+  header nav .nav-sections .default-content-wrapper > ul > li:hover::before,
+  header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded='true']::before {
+    content: '';
+    position: fixed;
+    inset: calc(var(--utility-bar-height) + var(--nav-height)) 0 0;
+    background: rgb(0 0 0 / 50%);
+    z-index: 9;
+    pointer-events: none;
+  }
+
   header nav .nav-sections .default-content-wrapper > ul > li:hover > ul,
   header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded='true'] > ul {
     display: flex;
     position: fixed;
-    left: 0;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1920px;
     top: calc(var(--utility-bar-height) + var(--nav-height));
-    padding: 27px max(32px, calc((100vw - 1392px) / 2)) 38px;
+    padding: 27px max(32px, calc((100% - 1392px) / 2)) 38px;
     background-color: #fff;
     white-space: initial;
     z-index: 10;
     border-top: 1px solid #e0e0e0;
+    box-sizing: border-box;
   }
 
   /* mega-menu columns */
@@ -656,6 +670,7 @@ header .nav-search-overlay {
 
 header .nav-search-overlay.active {
   display: block;
+  background: rgb(0 0 0 / 50%);
 }
 
 /* offset page content for fixed header */
