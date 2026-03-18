@@ -660,17 +660,17 @@ header .nav-search-close:hover svg {
   fill: #6b05a8;
 }
 
-/* search overlay */
+/* search overlay — covers page content below the header */
 header .nav-search-overlay {
   display: none;
   position: fixed;
-  inset: 0;
-  z-index: -1;
+  inset: calc(var(--utility-bar-height) + var(--nav-height) + 80px) 0 0;
+  z-index: 2;
+  background: rgb(0 0 0 / 50%);
 }
 
 header .nav-search-overlay.active {
   display: block;
-  background: rgb(0 0 0 / 50%);
 }
 
 /* offset page content for fixed header */
