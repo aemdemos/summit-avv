@@ -193,8 +193,21 @@ export default async function decorate(block) {
   }
 
   // Language switcher: detect by href="#lang" convention (icon-agnostic)
+  // Primary: a[href="#lang"] works in local preview where hash is preserved.
+  // Fallback: DA strips hash-only links (#lang -> /), so detect structurally —
+  // find a utility <li> with an icon-only link (no text) and a nested <ul>.
   if (navUtility) {
-    const langTrigger = navUtility.querySelector('a[href="#lang"]');
+    let langTrigger = navUtility.querySelector('a[href="#lang"]');
+    if (!langTrigger) {
+      const utilityItems = navUtility.querySelectorAll(':scope .default-content-wrapper > ul > li');
+      utilityItems.forEach((li) => {
+        if (langTrigger) return;
+        const link = li.querySelector(':scope > a');
+        if (link && link.querySelector('.icon') && !link.textContent.trim() && li.querySelector(':scope > ul')) {
+          langTrigger = link;
+        }
+      });
+    }
     if (langTrigger) {
       const langLi = langTrigger.closest('li');
       const langList = langLi.querySelector('ul');
