@@ -192,6 +192,39 @@ export default async function decorate(block) {
     });
   }
 
+  // Language switcher: detect globe icon with nested language list
+  if (navUtility) {
+    const globeItem = navUtility.querySelector('.icon-globe');
+    if (globeItem) {
+      const globeLi = globeItem.closest('li');
+      const langList = globeLi.querySelector('ul');
+      if (langList) {
+        globeLi.classList.add('nav-lang-switcher');
+        langList.classList.add('nav-lang-dropdown');
+        langList.setAttribute('aria-expanded', 'false');
+        // move flag icons inside the links for proper layout
+        langList.querySelectorAll('li').forEach((li) => {
+          const icon = li.querySelector('.icon');
+          const link = li.querySelector('a');
+          if (icon && link) {
+            link.prepend(icon);
+          }
+        });
+        globeItem.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const expanded = langList.getAttribute('aria-expanded') === 'true';
+          langList.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        });
+        document.addEventListener('click', (e) => {
+          if (!globeLi.contains(e.target)) {
+            langList.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+    }
+  }
+
   const navTools = nav.querySelector('.nav-tools');
   if (navTools) {
     navTools.querySelectorAll('.button-container').forEach((bc) => {
@@ -222,4 +255,53 @@ export default async function decorate(block) {
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
   block.append(navWrapper);
+
+  // Search form: intercept search icon click and show search bar
+  if (navTools) {
+    const searchLink = navTools.querySelector('a[href*="search"]');
+    if (searchLink) {
+      const searchBar = document.createElement('div');
+      searchBar.className = 'nav-search-bar';
+      searchBar.setAttribute('aria-expanded', 'false');
+      searchBar.innerHTML = `
+        <div class="nav-search-bar-content">
+          <span class="icon icon-search nav-search-icon"><img data-icon-name="search" src="/icons/search.svg" alt="" loading="lazy"></span>
+          <input type="text" class="nav-search-input" placeholder="Search by product name or partner or keyword" aria-label="Search">
+          <button type="button" class="nav-search-close" aria-label="Close search">
+            <span class="icon icon-close"><img data-icon-name="close" src="/icons/close.svg" alt="" loading="lazy"></span>
+          </button>
+        </div>
+      `;
+      const searchOverlay = document.createElement('div');
+      searchOverlay.className = 'nav-search-overlay';
+
+      const openSearch = () => {
+        searchBar.setAttribute('aria-expanded', 'true');
+        searchOverlay.classList.add('active');
+        searchBar.querySelector('.nav-search-input').focus();
+      };
+      const closeSearch = () => {
+        searchBar.setAttribute('aria-expanded', 'false');
+        searchOverlay.classList.remove('active');
+        searchBar.querySelector('.nav-search-input').value = '';
+      };
+
+      searchLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openSearch();
+      });
+      searchBar.querySelector('.nav-search-close').addEventListener('click', closeSearch);
+      searchOverlay.addEventListener('click', closeSearch);
+      searchBar.querySelector('.nav-search-input').addEventListener('keydown', (e) => {
+        if (e.code === 'Enter') {
+          const query = e.target.value.trim();
+          if (query) window.location.href = `/search?q=${encodeURIComponent(query)}`;
+        }
+        if (e.code === 'Escape') closeSearch();
+      });
+
+      navWrapper.append(searchBar);
+      navWrapper.append(searchOverlay);
+    }
+  }
 }
