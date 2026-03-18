@@ -128,6 +128,17 @@ function decorateNavUtility(nav) {
   });
 }
 
+function getPageOverlay() {
+  let overlay = document.querySelector('.page-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'page-overlay';
+    overlay.addEventListener('click', () => { overlay.classList.remove('active'); });
+    document.body.append(overlay);
+  }
+  return overlay;
+}
+
 function decorateNavSections(nav) {
   const navSections = nav.querySelector('.nav-sections');
   if (!navSections) return;
@@ -137,10 +148,14 @@ function decorateNavSections(nav) {
       if (isDesktop.matches) {
         toggleAllNavSections(navSections);
         navSection.setAttribute('aria-expanded', 'true');
+        getPageOverlay().classList.add('active');
       }
     });
     navSection.addEventListener('mouseleave', () => {
-      if (isDesktop.matches) navSection.setAttribute('aria-expanded', 'false');
+      if (isDesktop.matches) {
+        navSection.setAttribute('aria-expanded', 'false');
+        getPageOverlay().classList.remove('active');
+      }
     });
   });
   navSections.querySelectorAll('.button-container').forEach((buttonContainer) => {
@@ -293,17 +308,16 @@ export default async function decorate(block) {
           </button>
         </div>
       `, DOMPURIFY);
-      const searchOverlay = document.createElement('div');
-      searchOverlay.className = 'nav-search-overlay';
+      const pageOverlay = getPageOverlay();
 
       const openSearch = () => {
         searchBar.setAttribute('aria-expanded', 'true');
-        searchOverlay.classList.add('active');
+        pageOverlay.classList.add('active');
         searchBar.querySelector('.nav-search-input').focus();
       };
       const closeSearch = () => {
         searchBar.setAttribute('aria-expanded', 'false');
-        searchOverlay.classList.remove('active');
+        pageOverlay.classList.remove('active');
         searchBar.querySelector('.nav-search-input').value = '';
       };
 
@@ -312,7 +326,7 @@ export default async function decorate(block) {
         openSearch();
       });
       searchBar.querySelector('.nav-search-close').addEventListener('click', closeSearch);
-      searchOverlay.addEventListener('click', closeSearch);
+      pageOverlay.addEventListener('click', closeSearch);
       searchBar.querySelector('.nav-search-input').addEventListener('keydown', (e) => {
         if (e.code === 'Enter') {
           const input = e.target;
@@ -328,7 +342,6 @@ export default async function decorate(block) {
       });
 
       navWrapper.append(searchBar);
-      navWrapper.append(searchOverlay);
     }
   }
 }
