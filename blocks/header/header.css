@@ -205,6 +205,11 @@ header nav .nav-utility {
     cursor: pointer;
   }
 
+  /* Remove icon padding when inside a link to prevent double padding */
+  header nav .nav-utility ul li a .icon {
+    padding: 0;
+  }
+
   header nav .nav-utility ul li .icon img {
     width: 15px;
     height: 18px;
