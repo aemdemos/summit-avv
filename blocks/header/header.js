@@ -192,25 +192,24 @@ export default async function decorate(block) {
     });
   }
 
-  // Language switcher: detect globe icon with nested language list
+  // Language switcher: detect by href="#lang" convention (icon-agnostic)
   if (navUtility) {
-    const globeIcon = navUtility.querySelector('.icon-globe');
-    if (globeIcon) {
-      const globeLi = globeIcon.closest('li');
-      const langList = globeLi.querySelector('ul');
+    const langTrigger = navUtility.querySelector('a[href="#lang"]');
+    if (langTrigger) {
+      const langLi = langTrigger.closest('li');
+      const langList = langLi.querySelector('ul');
       if (langList) {
-        globeLi.classList.add('nav-lang-switcher');
+        langLi.classList.add('nav-lang-switcher');
         langList.classList.add('nav-lang-dropdown');
         langList.setAttribute('aria-expanded', 'false');
-        const globeLink = globeIcon.closest('a') || globeIcon;
-        globeLink.addEventListener('click', (e) => {
+        langTrigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
           const expanded = langList.getAttribute('aria-expanded') === 'true';
           langList.setAttribute('aria-expanded', expanded ? 'false' : 'true');
         });
         document.addEventListener('click', (e) => {
-          if (!globeLi.contains(e.target)) {
+          if (!langLi.contains(e.target)) {
             langList.setAttribute('aria-expanded', 'false');
           }
         });
