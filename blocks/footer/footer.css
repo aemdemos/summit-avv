@@ -24,23 +24,24 @@ footer .footer a:hover {
   text-decoration: underline;
 }
 
-/* ── Section 1: Links (logo + 3 link columns + contact) ── */
+/* ── Section 1: Links (Columns block: logo + link lists + contact) ── */
 footer .footer-links {
   max-width: 1440px;
   margin: 0 auto;
   padding: 48px 24px 32px;
 }
 
-/* Logo */
-footer .footer-links .default-content-wrapper > p:first-child {
-  margin-bottom: 32px;
+/* Columns block overrides for footer */
+footer .footer-links .columns > div {
+  align-items: flex-start;
 }
 
-footer .footer-links .default-content-wrapper > p:first-child a {
+/* Logo column (first column) */
+footer .footer-links .columns > div > div:first-child a {
   display: inline-block;
 }
 
-footer .footer-links .default-content-wrapper > p:first-child img {
+footer .footer-links .columns > div > div:first-child img {
   width: 150px;
   height: auto;
 }
@@ -62,14 +63,14 @@ footer .footer-links ul li a {
   color: #000;
 }
 
-/* Contact column */
-footer .footer-links .footer-contact p {
+/* Contact column (last column) */
+footer .footer-links .columns > div > div:last-child p {
   font-size: 14px;
   line-height: 22px;
   color: #363d42;
 }
 
-footer .footer-links .footer-contact p:first-child {
+footer .footer-links .columns > div > div:last-child p:first-child {
   margin-bottom: 8px;
 }
 
@@ -78,37 +79,13 @@ footer .footer-links .footer-contact p:first-child {
     padding: 48px 32px 40px;
   }
 
-  footer .footer-links .default-content-wrapper {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-    gap: 0 24px;
+  /* Logo column gets 2x width (matches original 2fr 1fr 1fr 1fr 1fr ratio) */
+  footer .footer-links .columns > div > div:first-child {
+    flex: 2;
   }
 
-  /* Logo: column 1, spanning all rows */
-  footer .footer-links .default-content-wrapper > p:first-child {
-    grid-column: 1;
-    grid-row: 1 / -1;
-    margin-bottom: 0;
-  }
-
-  footer .footer-links .default-content-wrapper > p:first-child img {
+  footer .footer-links .columns > div > div:first-child img {
     width: 180px;
-  }
-
-  /* 3 link lists: columns 2, 3, 4 */
-  footer .footer-links .default-content-wrapper > ul:nth-of-type(1) {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  footer .footer-links .default-content-wrapper > ul:nth-of-type(2) {
-    grid-column: 3;
-    grid-row: 1;
-  }
-
-  footer .footer-links .default-content-wrapper > ul:nth-of-type(3) {
-    grid-column: 4;
-    grid-row: 1;
   }
 
   footer .footer-links ul {
@@ -117,12 +94,6 @@ footer .footer-links .footer-contact p:first-child {
 
   footer .footer-links ul li {
     padding: 0 0 35px;
-  }
-
-  /* Contact: column 5 */
-  footer .footer-links .footer-contact {
-    grid-column: 5;
-    grid-row: 1;
   }
 }
 

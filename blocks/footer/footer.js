@@ -47,22 +47,5 @@ export default async function decorate(block) {
     if (btn) btn.classList.remove('button');
   });
 
-  // Wrap contact paragraphs (after the 3 lists) into a single div
-  const linksSection = footer.querySelector('.footer-links .default-content-wrapper');
-  if (linksSection) {
-    const lastList = linksSection.querySelector('ul:last-of-type');
-    if (lastList) {
-      const contactDiv = document.createElement('div');
-      contactDiv.classList.add('footer-contact');
-      let next = lastList.nextElementSibling;
-      while (next) {
-        const current = next;
-        next = next.nextElementSibling;
-        contactDiv.append(current);
-      }
-      if (contactDiv.children.length) linksSection.append(contactDiv);
-    }
-  }
-
   block.append(footer);
 }
