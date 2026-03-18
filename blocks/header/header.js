@@ -176,6 +176,20 @@ export default async function decorate(block) {
       buttonContainer.classList.remove('button-container');
       buttonContainer.querySelector('.button').classList.remove('button');
     });
+
+    // Detect sub-groups within mega-menu columns
+    // A column sub-item with a nested <ul> = sub-group with items
+    // A column sub-item with <strong> as first child = standalone sub-group header
+    navSections.querySelectorAll(':scope .default-content-wrapper > ul > li > ul > li > ul > li').forEach((subItem) => {
+      if (subItem.querySelector(':scope > ul')) {
+        subItem.classList.add('nav-subgroup');
+      } else if (subItem.querySelector(':scope > strong')) {
+        subItem.classList.add('nav-subgroup-header');
+      }
+      if (subItem.querySelector('picture, img')) {
+        subItem.classList.add('nav-image');
+      }
+    });
   }
 
   const navTools = nav.querySelector('.nav-tools');
