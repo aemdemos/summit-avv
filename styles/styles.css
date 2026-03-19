@@ -22,6 +22,8 @@
   --overlay-background-color: #e9ecef;
   --announcement-bg: #545c69;
   --accent-blue: #4d69e0;
+  --brand-purple: #461e6e;
+  --brand-purple-dark: #3e1054;
 
   /* AVEVA fonts */
   --body-font-family: 'Mulish', mulish-fallback, sans-serif;
@@ -335,4 +337,18 @@ main .section.dark a {
 
 main .section.dark a:hover {
   text-decoration: underline;
+}
+
+main .section.full-bleed {
+  margin: 0;
+}
+
+main .section.full-bleed > div {
+  max-width: unset;
+  padding: 0;
+}
+
+main .section.full-bleed img {
+  width: 100%;
+  display: block;
 }
