@@ -321,6 +321,18 @@ main .section.highlight {
 main .section.light-gray {
   background-color: #f6f8fa;
   margin: 0;
+  padding: var(--spacing-l) 0;
+}
+
+main .section.light-gray > div {
+  max-width: 1320px;
+  margin: auto;
+}
+
+main .section.light-gray h2 {
+  font-size: 36px;
+  padding-bottom: 16px;
+  margin-bottom: 0;
 }
 
 main .section.dark {
@@ -346,6 +358,10 @@ main .section.full-bleed {
 main .section.full-bleed > div {
   max-width: unset;
   padding: 0;
+}
+
+main .section.full-bleed p {
+  margin: 0;
 }
 
 main .section.full-bleed img {
