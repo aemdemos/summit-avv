@@ -338,3 +338,17 @@ main .section.dark a {
 main .section.dark a:hover {
   text-decoration: underline;
 }
+
+main .section.full-bleed {
+  margin: 0;
+}
+
+main .section.full-bleed > div {
+  max-width: unset;
+  padding: 0;
+}
+
+main .section.full-bleed img {
+  width: 100%;
+  display: block;
+}
