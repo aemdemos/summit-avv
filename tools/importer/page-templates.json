@@ -1,0 +1,148 @@
+{
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": [
+        "https://www.aveva.com/"
+      ],
+      "description": "AVEVA corporate homepage with hero, product highlights, and call-to-action sections",
+      "blocks": [
+        {
+          "name": "hero-banner",
+          "instances": [
+            "section.hero-banner.u-hero-height-large"
+          ]
+        },
+        {
+          "name": "promo-banner",
+          "instances": [
+            "section.hero-banner.u-hero-height-small"
+          ]
+        },
+        {
+          "name": "columns-highlight",
+          "instances": [
+            "#getAgileSection .column-control .row.coltype-2",
+            "section.background-container .column-control .row.coltype-2"
+          ]
+        },
+        {
+          "name": "cards-feature",
+          "instances": [
+            ".row.coltype-21:has(.card-v3)",
+            ".row.coltype-3:has(.card-v2-t1)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Hero",
+          "selector": "section.hero-banner.u-hero-height-large",
+          "style": null,
+          "blocks": [
+            "hero-banner"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-3",
+          "name": "Get Agile",
+          "selector": "#getAgileSection",
+          "style": null,
+          "blocks": [
+            "columns-highlight"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-4",
+          "name": "Expand Collaboration",
+          "selector": [
+            "section.background-container:has(.cmp-text h2:first-child)",
+            "#getAgileSection ~ .background-container .column-control"
+          ],
+          "style": "light-gray",
+          "blocks": [
+            "columns-highlight"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-5",
+          "name": "Gartner Recognition",
+          "selector": "section.hero-banner.u-hero-height-small:nth-of-type(1)",
+          "style": null,
+          "blocks": [
+            "promo-banner"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-6",
+          "name": "Advance Sustainability",
+          "selector": "section.background-container:has(h2:first-child)",
+          "style": null,
+          "blocks": [
+            "columns-highlight"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-7",
+          "name": "CONNECT Effect Banner",
+          "selector": ".image.aem-GridColumn .cmp-image__link[href*='connect-effect']",
+          "style": "full-bleed",
+          "blocks": [],
+          "defaultContent": [
+            ".cmp-image__link[href*='connect-effect']"
+          ]
+        },
+        {
+          "id": "section-8",
+          "name": "Customer Success",
+          "selector": "section.background-container:has(.background-container__heading:first-child)",
+          "style": "light-gray",
+          "blocks": [
+            "cards-feature"
+          ],
+          "defaultContent": [
+            ".background-container__heading"
+          ]
+        },
+        {
+          "id": "section-9",
+          "name": "Our Industrial Life",
+          "selector": "section.hero-banner:has(h2)",
+          "style": null,
+          "blocks": [
+            "promo-banner"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-10",
+          "name": "Industrial Ingenuity",
+          "selector": "section.background-container:has(.card-v2-t1)",
+          "style": "light-gray",
+          "blocks": [
+            "cards-feature"
+          ],
+          "defaultContent": [
+            ".background-container__heading"
+          ]
+        },
+        {
+          "id": "section-11",
+          "name": "Speak with Expert",
+          "selector": "section.hero-banner:last-of-type",
+          "style": null,
+          "blocks": [
+            "promo-banner"
+          ],
+          "defaultContent": []
+        }
+      ]
+    }
+  ]
+}

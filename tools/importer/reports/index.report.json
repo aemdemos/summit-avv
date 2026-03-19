@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "url": "https://www.aveva.com/",
+  "path": "index",
+  "timestamp": "2026-03-17T16:05:55.225Z",
+  "title": "AVEVA - Global Leader in Industrial Software",
+  "template": "homepage",
+  "blocks": [
+    "hero-banner",
+    "hero-banner",
+    "hero-banner",
+    "hero-banner",
+    "columns-highlight",
+    "columns-highlight",
+    "columns-highlight",
+    "columns-highlight",
+    "cards-feature",
+    "cards-feature"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-feature",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-03-17T13:28:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.aveva.com/",
+    "originPage": "AVEVA corporate homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + heading + description + CTA per card",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "customer success story cards",
+      "feature highlight cards with images",
+      "solution/capability cards with icons"
+    ],
+    "notSuitableFor": [
+      "text-only card listings",
+      "single-item highlights",
+      "carousel/slider layouts"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-03-17T13:28:00.000Z"
+  }
+}
