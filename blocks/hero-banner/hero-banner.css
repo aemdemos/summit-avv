@@ -24,6 +24,10 @@ main .hero-banner > div:first-child {
   inset: 0;
 }
 
+main .hero-banner > div:first-child > div {
+  height: 100%;
+}
+
 main .hero-banner > div:first-child picture {
   display: block;
   height: 100%;
