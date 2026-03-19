@@ -1,0 +1,39 @@
+{
+  "variantName": "columns-highlight",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-03-17T13:28:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.aveva.com/",
+    "originPage": "AVEVA corporate homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "highlight",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "text-column + image-column",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "text and image side-by-side sections",
+      "feature highlight with CTA",
+      "product/solution descriptions with imagery"
+    ],
+    "notSuitableFor": [
+      "card grids",
+      "multi-row layouts",
+      "text-only columns"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-03-17T13:28:00.000Z"
+  }
+}
