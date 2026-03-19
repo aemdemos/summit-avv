@@ -54,7 +54,6 @@ main .hero-banner h2 {
 }
 
 main .hero-banner h1 {
-  font-family: Barlow-Light, var(--heading-font-family);
   font-size: var(--heading-font-size-xxl);
   font-weight: 300;
 }
