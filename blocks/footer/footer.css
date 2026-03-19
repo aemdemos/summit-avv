@@ -259,16 +259,15 @@ footer .footer-social p:nth-child(2) a:nth-child(7) { background: #000; }
   }
 }
 
-/* ── Section 4: Disclaimer ── */
+/* ── Section 5: Disclaimer ── */
 footer .footer-disclaimer {
   background: #f6f8fa;
-  border-top: 1px solid #dee2e6;
 }
 
 footer .footer-disclaimer .default-content-wrapper {
   max-width: 1392px;
   margin: 0 auto;
-  padding: 32px 16px;
+  padding: 90px 16px;
   text-align: center;
 }
 
@@ -280,6 +279,6 @@ footer .footer-disclaimer .default-content-wrapper p {
 
 @media (width >= 900px) {
   footer .footer-disclaimer .default-content-wrapper {
-    padding: 32px 16px;
+    padding: 90px 16px;
   }
 }
