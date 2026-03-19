@@ -1,10 +1,25 @@
-/* columns-highlight block - AVEVA two-column content+image sections */
+/* columns-highlight block - AVEVA two-column content+image feature sections */
+
+/* Section-level full-bleed styling */
+main .columns-highlight-container {
+  max-width: unset;
+  padding: 40px 0;
+}
+
+main .columns-highlight-container .columns-highlight-wrapper {
+  max-width: 1392px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Row layout — stacked on mobile */
 main .columns-highlight > div {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-m);
 }
 
+/* Mobile: image on top, text below */
 main .columns-highlight > div > div {
   order: 1;
 }
@@ -19,26 +34,36 @@ main .columns-highlight img {
   object-fit: cover;
 }
 
+/* Typography */
 main .columns-highlight h2 {
-  font-weight: 300;
-  color: var(--text-color);
+  font-family: var(--heading-font-family);
+  font-weight: 500;
+  font-size: var(--heading-font-size-xxl);
+  line-height: 1.2;
+  color: #000;
   margin-bottom: 0;
 }
 
 main .columns-highlight h2 + h2 {
-  color: var(--text-color);
   margin-bottom: var(--spacing-s);
 }
 
 main .columns-highlight p {
-  color: var(--text-color-light);
+  color: var(--text-color);
   font-size: var(--body-font-size-m);
-  line-height: 1.5;
+  line-height: 29px;
 }
 
+/* Primary button (default) — solid dark */
 main .columns-highlight a.button {
   background-color: var(--dark-color);
   color: #fff;
+  border: none;
+  border-radius: 0;
+  padding: 16px 32px;
+  font-family: var(--heading-font-family);
+  font-size: var(--body-font-size-m);
+  font-weight: 600;
   margin-top: var(--spacing-xs);
 }
 
@@ -46,11 +71,29 @@ main .columns-highlight a.button:hover {
   background-color: var(--text-color);
 }
 
+/* Secondary button — outlined */
+main .columns-highlight a.button.secondary {
+  background-color: #fff;
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
+}
+
+main .columns-highlight a.button.secondary:hover {
+  background-color: var(--text-color);
+  color: #fff;
+}
+
+/* Light-gray section variant — outlined button adjusts bg */
+main .section.light-gray .columns-highlight a.button.secondary {
+  background-color: transparent;
+}
+
+/* Desktop layout */
 @media (width >= 900px) {
   main .columns-highlight > div {
     flex-direction: row;
     align-items: center;
-    gap: var(--spacing-xl);
+    gap: 40px;
   }
 
   main .columns-highlight > div > div {
@@ -58,8 +101,12 @@ main .columns-highlight a.button:hover {
     order: unset;
   }
 
+  main .columns-highlight h2 {
+    font-size: 36px;
+    line-height: 43px;
+  }
+
   main .columns-highlight img {
-    border-radius: 0;
     max-height: 498px;
   }
 }
