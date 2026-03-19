@@ -4,3 +4,14 @@
 
 /* Mulish (formerly Muli): body text (Regular 400, SemiBold 600) */
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Mulish:wght@400;600;700&display=swap');
+
+/* Self-hosted Barlow-Light — matches reference site's separate font-family approach.
+   The reference uses Barlow-Light as its own family with font-weight 300, which renders
+   slightly differently from Google Fonts' Barlow at weight 300. */
+@font-face {
+  font-family: Barlow-Light;
+  src: url('/fonts/barlow-light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
