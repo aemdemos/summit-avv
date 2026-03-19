@@ -4,6 +4,7 @@
 main .columns-highlight-container {
   max-width: unset;
   padding: 40px 0;
+  margin: 0;
 }
 
 main .columns-highlight-container .columns-highlight-wrapper {
@@ -34,18 +35,19 @@ main .columns-highlight img {
   object-fit: cover;
 }
 
-/* Typography */
+/* Typography — first h2 uses Medium weight, second uses Light (matching reference) */
 main .columns-highlight h2 {
   font-family: var(--heading-font-family);
   font-weight: 500;
   font-size: var(--heading-font-size-xxl);
   line-height: 1.2;
   color: #000;
-  margin-bottom: 0;
+  margin-bottom: 8px;
 }
 
 main .columns-highlight h2 + h2 {
-  margin-bottom: var(--spacing-s);
+  font-weight: 300;
+  margin-bottom: 48px;
 }
 
 main .columns-highlight p {
@@ -64,7 +66,7 @@ main .columns-highlight a.button {
   font-family: var(--heading-font-family);
   font-size: var(--body-font-size-m);
   font-weight: 600;
-  margin-top: var(--spacing-xs);
+  margin-top: 24px;
 }
 
 main .columns-highlight a.button:hover {
@@ -92,7 +94,7 @@ main .section.light-gray .columns-highlight a.button.secondary {
 @media (width >= 900px) {
   main .columns-highlight > div {
     flex-direction: row;
-    align-items: center;
+    align-items: normal;
     gap: 40px;
   }
 
