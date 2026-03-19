@@ -81,8 +81,9 @@ main .columns-highlight a.button.secondary {
 }
 
 main .columns-highlight a.button.secondary:hover {
-  background-color: var(--text-color);
-  color: #fff;
+  color: #3051db;
+  border-color: #3051db;
+  background-color: #fff;
 }
 
 /* Light-gray section variant — outlined button adjusts bg */
