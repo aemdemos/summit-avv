@@ -24,11 +24,17 @@ footer .footer a:hover {
   text-decoration: underline;
 }
 
+/* Footer link columns: blue color on hover, no underline */
+footer .footer-links ul li a:hover {
+  color: #3051db;
+  text-decoration: none;
+}
+
 /* ── Section 1: Links (Columns block: logo + link lists + contact) ── */
 footer .footer-links {
-  max-width: 1440px;
+  max-width: 1392px;
   margin: 0 auto;
-  padding: 48px 24px 32px;
+  padding: 48px 16px 32px;
 }
 
 /* Columns block overrides for footer */
@@ -76,16 +82,22 @@ footer .footer-links .columns > div > div:last-child p:first-child {
 
 @media (width >= 900px) {
   footer .footer-links {
-    padding: 48px 32px 40px;
+    padding: 48px 16px 40px;
   }
 
-  /* Logo column gets 2x width (matches original 2fr 1fr 1fr 1fr 1fr ratio) */
+  /* Logo column gets ~43% width to match reference layout */
   footer .footer-links .columns > div > div:first-child {
-    flex: 2;
+    flex: 3;
   }
 
   footer .footer-links .columns > div > div:first-child img {
     width: 180px;
+  }
+
+  /* Contact column (last) narrower to match reference */
+  footer .footer-links .columns > div > div:last-child {
+    flex: 0 0 auto;
+    width: 140px;
   }
 
   footer .footer-links ul {
@@ -99,13 +111,12 @@ footer .footer-links .columns > div > div:last-child p:first-child {
 
 /* ── Section 2: Also of Interest ── */
 footer .footer-also {
-  border-top: 1px solid #dee2e6;
-  border-bottom: 1px solid #dee2e6;
-  padding: 16px 24px;
+  border-top: 1px solid #c7ccd6;
+  padding: 16px;
 }
 
 footer .footer-also .default-content-wrapper {
-  max-width: 1440px;
+  max-width: 1392px;
   margin: 0 auto;
 }
 
@@ -132,7 +143,7 @@ footer .footer-also ul li a {
 
 @media (width >= 900px) {
   footer .footer-also {
-    padding: 16px 32px;
+    padding: 16px;
   }
 
   footer .footer-also .default-content-wrapper {
@@ -149,9 +160,9 @@ footer .footer-also ul li a {
 
 /* ── Sections 3+4 wrapper: Copyright + Social ── */
 footer .footer-bottom {
-  max-width: 1440px;
+  max-width: 1392px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 22px 16px;
 }
 
 /* ── Section 3: Copyright ── */
@@ -160,8 +171,8 @@ footer .footer-copyright {
 }
 
 footer .footer-copyright p {
-  font-size: 12px;
-  line-height: 18px;
+  font-size: 14px;
+  line-height: 20px;
   color: #363d42;
 }
 
@@ -195,6 +206,12 @@ footer .footer-social p:nth-child(2) a {
   height: 32px;
   border-radius: 0;
   overflow: hidden;
+  transition: transform 0.3s;
+}
+
+footer .footer-social p:nth-child(2) a:hover {
+  transform: translateY(-5px);
+  text-decoration: none;
 }
 
 footer .footer-social p:nth-child(2) a .icon {
@@ -222,7 +239,7 @@ footer .footer-social p:nth-child(2) a:nth-child(7) { background: #000; }
 
 @media (width >= 900px) {
   footer .footer-bottom {
-    padding: 24px 32px;
+    padding: 22px 16px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -249,20 +266,20 @@ footer .footer-disclaimer {
 }
 
 footer .footer-disclaimer .default-content-wrapper {
-  max-width: 1440px;
+  max-width: 1392px;
   margin: 0 auto;
-  padding: 32px 24px;
+  padding: 32px 16px;
   text-align: center;
 }
 
 footer .footer-disclaimer .default-content-wrapper p {
-  font-size: 10px;
-  line-height: 16px;
+  font-size: 14px;
+  line-height: 21px;
   color: #3e3e3e;
 }
 
 @media (width >= 900px) {
   footer .footer-disclaimer .default-content-wrapper {
-    padding: 32px;
+    padding: 32px 16px;
   }
 }
