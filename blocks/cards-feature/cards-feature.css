@@ -1,4 +1,6 @@
-/* cards-feature block - AVEVA card grids (customer stories, icon cards) */
+/* cards-feature block - AVEVA card grids */
+
+/* === Default: 3-col icon cards === */
 main .cards-feature > ul {
   list-style: none;
   margin: 0;
@@ -9,50 +11,118 @@ main .cards-feature > ul {
 }
 
 main .cards-feature > ul > li {
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
   overflow: hidden;
-  padding-bottom: var(--spacing-m);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 8%);
+  padding: 48px 24px 72px;
 }
 
 main .cards-feature .cards-feature-card-image {
   line-height: 0;
-  margin-bottom: var(--spacing-s);
 }
 
-main .cards-feature > ul > li img {
+main .cards-feature .cards-feature-card-image img {
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+}
+
+main .cards-feature .cards-feature-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 40px 0 0;
+}
+
+main .cards-feature .cards-feature-card-body h3 {
+  font-family: var(--heading-font-family);
+  font-weight: 500;
+  font-size: var(--heading-font-size-l);
+  line-height: 32px;
+  color: var(--text-color);
+  margin: 0 0 32px;
+}
+
+main .cards-feature .cards-feature-card-body p {
+  color: var(--text-color);
+  font-size: var(--body-font-size-m);
+  line-height: 29px;
+  margin: 0;
+}
+
+main .cards-feature .cards-feature-card-body p:last-child {
+  margin-top: auto;
+}
+
+main .cards-feature .cards-feature-card-body a {
+  color: var(--link-color);
+  font-family: var(--heading-font-family);
+  font-size: var(--body-font-size-m);
+  font-weight: 400;
+  text-decoration: none;
+}
+
+main .cards-feature .cards-feature-card-body a:hover {
+  text-decoration: underline;
+}
+
+/* === Two-up: 2-col photo cards === */
+main .cards-feature.two-up > ul > li {
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0 0 48px;
+}
+
+main .cards-feature.two-up .cards-feature-card-image {
+  margin-bottom: 0;
+}
+
+main .cards-feature.two-up .cards-feature-card-image img {
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
-main .cards-feature .cards-feature-card-body {
-  padding: 0 var(--spacing-s);
+main .cards-feature.two-up .cards-feature-card-body {
+  padding: 0 16px;
 }
 
-main .cards-feature .cards-feature-card-body h3 {
-  font-weight: 500;
-  font-size: var(--heading-font-size-l);
-  color: var(--text-color);
-  margin-bottom: var(--spacing-xs);
+main .cards-feature.two-up .cards-feature-card-body h3 {
+  line-height: 32px;
+  margin: 0 0 8px;
 }
 
-main .cards-feature .cards-feature-card-body p {
-  color: var(--text-color-light);
-  font-size: var(--body-font-size-s);
-  line-height: 1.5;
+main .cards-feature.two-up .cards-feature-card-body p {
+  line-height: 29px;
+  margin: 0;
 }
 
-main .cards-feature .cards-feature-card-body a.button {
+main .cards-feature.two-up .cards-feature-card-body p:last-child {
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+main .cards-feature.two-up .cards-feature-card-body a {
   background-color: var(--dark-color);
   color: #fff;
-  font-size: var(--body-font-size-s);
-  padding: 12px 24px;
+  font-family: var(--button-font-family);
+  font-size: var(--body-font-size-m);
+  font-weight: 600;
+  padding: 16px 32px;
+  display: inline-block;
+  line-height: 16px;
+  text-decoration: none;
 }
 
-main .cards-feature .cards-feature-card-body a.button:hover {
+main .cards-feature.two-up .cards-feature-card-body a:hover {
   background-color: var(--text-color);
+  text-decoration: none;
 }
 
+/* === Responsive === */
 @media (width >= 600px) {
   main .cards-feature > ul {
     grid-template-columns: repeat(2, 1fr);
@@ -62,5 +132,9 @@ main .cards-feature .cards-feature-card-body a.button:hover {
 @media (width >= 900px) {
   main .cards-feature > ul {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  main .cards-feature.two-up > ul {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
