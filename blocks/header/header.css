@@ -342,7 +342,7 @@ header nav .nav-sections ul > li > ul > li {
     width: 100%;
     max-width: 1920px;
     top: calc(var(--utility-bar-height) + var(--nav-height));
-    padding: 27px max(32px, calc((100% - 1392px) / 2)) 38px;
+    padding: 27px max(32px, calc((min(100%, 1920px) - 1392px) / 2)) 38px;
     background-color: #fff;
     white-space: initial;
     z-index: 10;
