@@ -17,6 +17,12 @@ main .cards-feature > ul > li {
   overflow: hidden;
   box-shadow: 0 2px 10px rgb(0 0 0 / 8%);
   padding: 48px 24px 72px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-out;
+}
+
+main .cards-feature > ul > li:hover {
+  box-shadow: 0 12px 20px rgb(0 0 0 / 12%);
 }
 
 main .cards-feature .cards-feature-card-image {
@@ -62,10 +68,25 @@ main .cards-feature .cards-feature-card-body a {
   font-size: var(--body-font-size-m);
   font-weight: 400;
   text-decoration: none;
+  position: relative;
+  display: inline-block;
+}
+
+main .cards-feature .cards-feature-card-body a::after {
+  content: "";
+  display: block;
+  height: 3px;
+  background: transparent;
+  transition: background 0.3s ease-out;
 }
 
 main .cards-feature .cards-feature-card-body a:hover {
-  text-decoration: underline;
+  color: #3051db;
+  text-decoration: none;
+}
+
+main .cards-feature .cards-feature-card-body a:hover::after {
+  background: rgb(77 105 224 / 30%);
 }
 
 /* === Two-up: 2-col photo cards === */
