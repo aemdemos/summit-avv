@@ -10,6 +10,7 @@ header .nav-wrapper {
   width: 100%;
   z-index: 2;
   position: fixed;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 16%);
 }
 
 @media (width >= 1920px) {
@@ -110,69 +111,65 @@ header nav a {
 /* hamburger */
 header nav .nav-hamburger {
   grid-area: hamburger;
-  height: 17px;
   display: flex;
   align-items: center;
 }
 
 header nav .nav-hamburger button {
-  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   margin: 0;
   border: 0;
   border-radius: 0;
   padding: 0;
-  background-color: var(--background-color);
+  background-color: transparent;
   color: inherit;
-  overflow: initial;
-  text-overflow: initial;
-  white-space: initial;
+  cursor: pointer;
+  overflow: visible;
 }
 
-header nav .nav-hamburger-icon,
-header nav .nav-hamburger-icon::before,
-header nav .nav-hamburger-icon::after {
-  box-sizing: border-box;
+header nav .nav-hamburger-icon {
   display: block;
   position: relative;
   width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentcolor;
+  transition: background 0.2s ease-in-out;
 }
 
 header nav .nav-hamburger-icon::before,
 header nav .nav-hamburger-icon::after {
   content: '';
+  display: block;
   position: absolute;
-  background: currentcolor;
-}
-
-header nav[aria-expanded='false'] .nav-hamburger-icon,
-header nav[aria-expanded='false'] .nav-hamburger-icon::before,
-header nav[aria-expanded='false'] .nav-hamburger-icon::after {
+  left: 0;
+  width: 22px;
   height: 2px;
   border-radius: 2px;
   background: currentcolor;
+  transition: top 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
-header nav[aria-expanded='false'] .nav-hamburger-icon::before {
+header nav .nav-hamburger-icon::before {
   top: -8px;
 }
 
-header nav[aria-expanded='false'] .nav-hamburger-icon::after {
+header nav .nav-hamburger-icon::after {
   top: 8px;
 }
 
+/* Open (X) state — middle bar fades, top/bottom bars rotate */
 header nav[aria-expanded='true'] .nav-hamburger-icon {
-  height: 17px;
+  background: transparent;
 }
 
-header nav[aria-expanded='true'] .nav-hamburger-icon::before,
-header nav[aria-expanded='true'] .nav-hamburger-icon::after {
+header nav[aria-expanded='true'] .nav-hamburger-icon::before {
   top: 0;
-  left: 0;
   transform: rotate(45deg);
-  width: 22px;
-  height: 2px;
-  border-radius: 0;
-  background: currentcolor;
 }
 
 header nav[aria-expanded='true'] .nav-hamburger-icon::after {
@@ -531,7 +528,7 @@ header nav .nav-sections ul > li > ul > li {
   header nav .nav-sections ul > li > a {
     font-family: var(--heading-font-family);
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     color: #363d42;
     text-decoration: none;
     display: flex;
@@ -643,7 +640,7 @@ header nav .nav-sections ul > li > ul > li {
     z-index: 1;
     font-family: var(--heading-font-family);
     font-size: 15px;
-    font-weight: 400;
+    font-weight: 700;
     color: #363d42;
     text-decoration: none;
     padding: 0 16px 0 66px;
@@ -676,7 +673,7 @@ header nav .nav-sections ul > li > ul > li {
     align-items: center;
     font-family: var(--heading-font-family);
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
     color: #363d42;
     text-decoration: none;
     padding: 0 16px 0 66px;
@@ -1118,6 +1115,5 @@ header .nav-search-close:hover svg {
 @media (width >= 1024px) {
   header .nav-wrapper {
     padding-top: var(--utility-bar-height);
-    box-shadow: 0 3px 6px rgb(0 0 0 / 16%);
   }
 }
