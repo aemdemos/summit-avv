@@ -31,4 +31,15 @@ export default function decorate(block) {
   if (items.length <= 2) {
     block.classList.add('two-up');
   }
+
+  // Make entire card clickable (navigate to first link)
+  items.forEach((card) => {
+    const link = card.querySelector('a');
+    if (link) {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('a')) return;
+        link.click();
+      });
+    }
+  });
 }
