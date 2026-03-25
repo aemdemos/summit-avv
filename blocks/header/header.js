@@ -289,7 +289,8 @@ function buildMobileLangSwitcher(nav) {
   if (!langList) return;
 
   // Determine current language from the list (match current path)
-  let currentLang = 'English';
+  const firstLangLink = langList.querySelector('li a');
+  let currentLang = firstLangLink ? firstLangLink.textContent.trim() : '';
   langList.querySelectorAll('li a').forEach((a) => {
     const href = a.getAttribute('href');
     if (href && window.location.pathname.startsWith(href.replace(/\/$/, ''))) {
@@ -297,7 +298,7 @@ function buildMobileLangSwitcher(nav) {
     }
   });
 
-  // Bottom bar trigger (globe icon + "English" + right arrow)
+  // Bottom bar trigger (globe icon + current language + right arrow)
   const mobileLang = document.createElement('div');
   mobileLang.className = 'nav-mobile-lang';
 
