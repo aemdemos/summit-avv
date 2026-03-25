@@ -9,8 +9,14 @@ export default function decorate(block) {
     moveInstrumentation(row, li);
     while (row.firstElementChild) li.append(row.firstElementChild);
     [...li.children].forEach((div) => {
-      if (div.children.length === 1 && div.querySelector('picture')) div.className = 'cards-feature-card-image';
-      else div.className = 'cards-feature-card-body';
+      const hasPicture = div.children.length === 1 && div.querySelector('picture');
+      const hasSingleImg = div.children.length === 1
+        && div.querySelector(':scope > p > img:only-child');
+      if (hasPicture || hasSingleImg) {
+        div.className = 'cards-feature-card-image';
+      } else {
+        div.className = 'cards-feature-card-body';
+      }
     });
     ul.append(li);
   });
@@ -18,6 +24,15 @@ export default function decorate(block) {
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);
+  });
+  ul.querySelectorAll('.cards-feature-card-image img').forEach((img) => {
+    const markIcon = () => {
+      if (img.naturalWidth <= 200 && img.naturalHeight <= 200) {
+        img.closest('.cards-feature-card-image')?.classList.add('icon');
+      }
+    };
+    if (img.complete) markIcon();
+    else img.addEventListener('load', markIcon);
   });
   block.textContent = '';
   block.append(ul);
