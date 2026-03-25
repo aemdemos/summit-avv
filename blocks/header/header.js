@@ -26,6 +26,9 @@ function closeOnEscape(e) {
 function closeOnFocusLost(e) {
   const nav = e.currentTarget;
   if (!nav.contains(e.relatedTarget)) {
+    // On mobile, null relatedTarget means focus was lost due to DOM/CSS changes
+    // (e.g. hiding an element), not the user clicking outside — don't close.
+    if (!isDesktop.matches && !e.relatedTarget) return;
     const navSections = nav.querySelector('.nav-sections');
     if (!navSections) return;
     const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
@@ -66,6 +69,15 @@ function toggleAllNavSections(sections, expanded = false) {
   });
 }
 
+function resetMobileSubMenus(nav) {
+  nav.querySelectorAll('.mobile-active').forEach((el) => el.classList.remove('mobile-active'));
+  nav.classList.remove('mobile-level-2', 'mobile-level-3', 'mobile-lang-open');
+}
+
+function lockBodyScroll(lock) {
+  document.documentElement.classList.toggle('nav-open', lock);
+}
+
 /**
  * Toggles the entire nav
  * @param {Element} nav The container element
@@ -75,9 +87,11 @@ function toggleAllNavSections(sections, expanded = false) {
 function toggleMenu(nav, navSections, forceExpanded = null) {
   const expanded = forceExpanded !== null ? !forceExpanded : nav.getAttribute('aria-expanded') === 'true';
   const button = nav.querySelector('.nav-hamburger button');
-  document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
+  lockBodyScroll(!(expanded || isDesktop.matches));
   nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
   toggleAllNavSections(navSections, expanded || isDesktop.matches ? 'false' : 'true');
+  // reset mobile sub-menu state when closing
+  if (expanded) resetMobileSubMenus(nav);
   button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
   // enable nav dropdown keyboard accessibility
   if (navSections) {
@@ -137,6 +151,76 @@ function getPageOverlay() {
     document.body.append(overlay);
   }
   return overlay;
+}
+
+function createBackButton(onClick) {
+  const li = document.createElement('li');
+  li.className = 'mobile-back-item';
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'mobile-back-btn';
+  const arrow = document.createElement('span');
+  arrow.className = 'mobile-back-arrow';
+  btn.append(arrow);
+  btn.append('Back');
+  btn.addEventListener('click', onClick);
+  li.append(btn);
+  return li;
+}
+
+function setupMobileL2(nav, subMenu, l2) {
+  const l2Sub = l2.querySelector(':scope > ul');
+  if (!l2Sub) return;
+  l2.classList.add('mobile-has-submenu');
+
+  const l2Click = l2.querySelector(':scope > a') || l2.querySelector(':scope > strong');
+  if (!l2Click) return;
+
+  l2Click.addEventListener('click', (e) => {
+    if (isDesktop.matches) return;
+    e.preventDefault();
+    subMenu.querySelectorAll(':scope > li.mobile-active').forEach((el) => el.classList.remove('mobile-active'));
+    l2.classList.add('mobile-active');
+    nav.classList.add('mobile-level-3');
+  });
+
+  if (!l2Sub.querySelector(':scope > .mobile-back-item')) {
+    l2Sub.prepend(createBackButton(() => {
+      l2.classList.remove('mobile-active');
+      nav.classList.remove('mobile-level-3');
+    }));
+  }
+}
+
+function setupMobileSubMenus(nav) {
+  const navSections = nav.querySelector('.nav-sections');
+  if (!navSections) return;
+
+  navSections.querySelectorAll(':scope .default-content-wrapper > ul > li.nav-drop').forEach((l1) => {
+    const link = l1.querySelector(':scope > a');
+    const subMenu = l1.querySelector(':scope > ul');
+    if (!link || !subMenu) return;
+
+    link.addEventListener('click', (e) => {
+      if (isDesktop.matches) return;
+      e.preventDefault();
+      resetMobileSubMenus(nav);
+      l1.classList.add('mobile-active');
+      nav.classList.add('mobile-level-2');
+    });
+
+    if (!subMenu.querySelector(':scope > .mobile-back-item')) {
+      subMenu.prepend(createBackButton(() => {
+        l1.classList.remove('mobile-active');
+        nav.classList.remove('mobile-level-2', 'mobile-level-3');
+      }));
+    }
+
+    subMenu.querySelectorAll(':scope > li').forEach((l2) => {
+      if (l2.classList.contains('mobile-back-item')) return;
+      setupMobileL2(nav, subMenu, l2);
+    });
+  });
 }
 
 function decorateNavSections(nav) {
@@ -225,6 +309,93 @@ function decorateLanguageSwitcher(nav) {
   });
 }
 
+function buildMobileLangSwitcher(nav) {
+  const langSwitcher = nav.querySelector('.nav-lang-switcher');
+  if (!langSwitcher) return;
+
+  const langList = langSwitcher.querySelector('.nav-lang-dropdown');
+  if (!langList) return;
+
+  // Determine current language from the list (match current path)
+  let currentLang = 'English';
+  langList.querySelectorAll('li a').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (href && window.location.pathname.startsWith(href.replace(/\/$/, ''))) {
+      currentLang = a.textContent.trim();
+    }
+  });
+
+  // Bottom bar trigger (globe icon + "English" + right arrow)
+  const mobileLang = document.createElement('div');
+  mobileLang.className = 'nav-mobile-lang';
+
+  const globeSpan = document.createElement('span');
+  globeSpan.className = 'icon icon-globe';
+  const globeImg = document.createElement('img');
+  globeImg.setAttribute('data-icon-name', 'globe');
+  globeImg.src = '/icons/globe.svg';
+  globeImg.alt = '';
+  globeImg.loading = 'lazy';
+  globeSpan.append(globeImg);
+
+  const langText = document.createElement('span');
+  langText.className = 'nav-mobile-lang-text';
+  langText.textContent = currentLang;
+
+  const langArrow = document.createElement('span');
+  langArrow.className = 'nav-mobile-lang-arrow';
+
+  mobileLang.append(globeSpan, langText, langArrow);
+
+  // Language selection panel (hidden by default, shown when trigger is clicked)
+  const langPanel = document.createElement('div');
+  langPanel.className = 'nav-mobile-lang-panel';
+
+  const backBtn = document.createElement('button');
+  backBtn.type = 'button';
+  backBtn.className = 'mobile-back-btn';
+  const backArrow = document.createElement('span');
+  backArrow.className = 'mobile-back-arrow';
+  backBtn.append(backArrow);
+  backBtn.append('Back');
+  langPanel.append(backBtn);
+
+  const panelList = document.createElement('ul');
+  langList.querySelectorAll('li').forEach((li) => {
+    const a = li.querySelector('a');
+    if (!a) return;
+    const newLi = document.createElement('li');
+    const newA = document.createElement('a');
+    newA.href = a.getAttribute('href') || '#';
+    const icon = li.querySelector('.icon');
+    if (icon) newA.append(icon.cloneNode(true));
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'nav-mobile-lang-name';
+    nameSpan.textContent = a.textContent.trim();
+    newA.append(nameSpan);
+    if (a.textContent.trim() === currentLang) {
+      const check = document.createElement('span');
+      check.className = 'nav-mobile-lang-check';
+      newA.append(check);
+    }
+    newLi.append(newA);
+    panelList.append(newLi);
+  });
+  langPanel.append(panelList);
+
+  // Open lang panel
+  mobileLang.addEventListener('click', () => {
+    nav.classList.add('mobile-lang-open');
+  });
+
+  // Close lang panel (back button)
+  backBtn.addEventListener('click', () => {
+    nav.classList.remove('mobile-lang-open');
+  });
+
+  nav.append(mobileLang, langPanel);
+}
+
 function decorateNavTools(nav) {
   const navTools = nav.querySelector('.nav-tools');
   if (!navTools) return;
@@ -267,7 +438,9 @@ export default async function decorate(block) {
   decorateNavBrand(nav);
   decorateNavUtility(nav);
   decorateNavSections(nav);
+  setupMobileSubMenus(nav);
   decorateLanguageSwitcher(nav);
+  buildMobileLangSwitcher(nav);
   decorateNavTools(nav);
   decorateIcons(nav);
 
