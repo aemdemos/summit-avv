@@ -19,24 +19,59 @@ header nav {
     'hamburger brand tools' var(--nav-height)
     'sections sections sections' 1fr / auto 1fr auto;
   align-items: center;
-  gap: 0 24px;
+  gap: 0 16px;
   margin: auto;
   max-width: 1440px;
   height: var(--nav-height);
-  padding: 0 24px;
+  padding: 0 16px;
   font-family: var(--body-font-family);
 }
 
-header nav[aria-expanded='true'] {
-  grid-template:
-    'hamburger brand' var(--nav-height)
-    'sections sections' 1fr
-    'tools tools' var(--nav-height) / auto 1fr;
-  overflow-y: auto;
-  min-height: 100dvh;
+@media (width < 1024px) {
+  header nav[aria-expanded='true'] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: flex-start;
+    overflow-y: auto;
+    min-height: 100dvh;
+  }
+
+  header nav[aria-expanded='true'] .nav-hamburger {
+    order: 1;
+    height: var(--nav-height);
+  }
+
+  header nav[aria-expanded='true'] .nav-brand {
+    order: 2;
+    flex: 1;
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  header nav[aria-expanded='true'] .nav-tools {
+    order: 3;
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+  }
+
+  header nav[aria-expanded='true'] .nav-sections {
+    order: 4;
+    width: 100%;
+    align-self: start;
+  }
+
+  header nav[aria-expanded='true'] .nav-utility {
+    order: 5;
+    width: 100%;
+    align-self: start;
+  }
 }
 
-@media (width >= 900px) {
+@media (width >= 1024px) {
   header nav {
     display: flex;
     justify-content: space-between;
@@ -65,13 +100,13 @@ header nav a {
 /* hamburger */
 header nav .nav-hamburger {
   grid-area: hamburger;
-  height: 22px;
+  height: 17px;
   display: flex;
   align-items: center;
 }
 
 header nav .nav-hamburger button {
-  height: 22px;
+  height: 17px;
   margin: 0;
   border: 0;
   border-radius: 0;
@@ -89,7 +124,7 @@ header nav .nav-hamburger-icon::after {
   box-sizing: border-box;
   display: block;
   position: relative;
-  width: 20px;
+  width: 22px;
 }
 
 header nav .nav-hamburger-icon::before,
@@ -108,35 +143,34 @@ header nav[aria-expanded='false'] .nav-hamburger-icon::after {
 }
 
 header nav[aria-expanded='false'] .nav-hamburger-icon::before {
-  top: -6px;
+  top: -8px;
 }
 
 header nav[aria-expanded='false'] .nav-hamburger-icon::after {
-  top: 6px;
+  top: 8px;
 }
 
 header nav[aria-expanded='true'] .nav-hamburger-icon {
-  height: 22px;
+  height: 17px;
 }
 
 header nav[aria-expanded='true'] .nav-hamburger-icon::before,
 header nav[aria-expanded='true'] .nav-hamburger-icon::after {
-  top: 3px;
-  left: 1px;
+  top: 0;
+  left: 0;
   transform: rotate(45deg);
-  transform-origin: 2px 1px;
-  width: 24px;
+  width: 22px;
   height: 2px;
-  border-radius: 2px;
+  border-radius: 0;
+  background: currentcolor;
 }
 
 header nav[aria-expanded='true'] .nav-hamburger-icon::after {
-  top: unset;
-  bottom: 3px;
+  top: 0;
   transform: rotate(-45deg);
 }
 
-@media (width >= 900px) {
+@media (width >= 1024px) {
   header nav .nav-hamburger {
     display: none;
     visibility: hidden;
@@ -148,19 +182,66 @@ header .nav-brand {
   grid-area: brand;
   flex-shrink: 0;
   line-height: 1;
+  text-align: center;
 }
 
 header nav .nav-brand img {
-  width: 109px;
+  width: 80px;
   height: auto;
 }
 
-/* utility bar — purple top bar */
+@media (width >= 1024px) {
+  header nav .nav-brand img {
+    width: 109px;
+  }
+}
+
+/* utility bar — hidden at mobile, shown in mobile menu */
 header nav .nav-utility {
   display: none;
 }
 
-@media (width >= 900px) {
+@media (width < 1024px) {
+  header nav[aria-expanded='true'] .nav-utility {
+    display: block;
+    position: static;
+    height: auto;
+    background: none;
+    padding: 0;
+  }
+
+  header nav[aria-expanded='true'] .nav-utility ul {
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  header nav[aria-expanded='true'] .nav-utility ul li {
+    padding: 0 0 24px;
+  }
+
+  header nav[aria-expanded='true'] .nav-utility ul li a {
+    color: var(--text-color);
+    font-family: var(--heading-font-family);
+    font-size: var(--body-font-size-m);
+    font-weight: 400;
+    line-height: 23px;
+    padding: 0;
+    text-decoration: none;
+  }
+
+  header nav[aria-expanded='true'] .nav-utility ul li .icon,
+  header nav[aria-expanded='true'] .nav-utility ul li a .icon {
+    display: none;
+  }
+
+  header nav[aria-expanded='true'] .nav-utility .nav-lang-switcher {
+    display: none;
+  }
+}
+
+@media (width >= 1024px) {
   header nav .nav-utility {
     display: block;
     position: absolute;
@@ -251,11 +332,11 @@ header nav[aria-expanded='true'] .nav-sections {
 header nav .nav-sections ul {
   list-style: none;
   padding-left: 0;
-  font-size: var(--body-font-size-s);
+  font-size: var(--body-font-size-m);
 }
 
 header nav .nav-sections ul > li {
-  font-weight: 500;
+  font-weight: 400;
 }
 
 header nav .nav-sections ul > li > ul {
@@ -266,7 +347,45 @@ header nav .nav-sections ul > li > ul > li {
   font-weight: 400;
 }
 
-@media (width >= 900px) {
+@media (width < 1024px) {
+  header nav .nav-sections .default-content-wrapper > ul {
+    padding-top: 40px;
+  }
+
+  header nav .nav-sections ul > li {
+    padding: 0 0 24px;
+  }
+
+  header nav .nav-sections ul > li > a {
+    font-family: var(--heading-font-family);
+    font-size: var(--body-font-size-m);
+    font-weight: 400;
+    color: var(--text-color);
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 16px;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li.nav-drop > a::after {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-right: 1.5px solid #363d42;
+    border-bottom: 1.5px solid #363d42;
+    transform: rotate(-45deg);
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  header nav .nav-sections ul > li > ul {
+    display: none;
+  }
+}
+
+@media (width >= 1024px) {
   header nav .nav-sections {
     display: block;
     visibility: visible;
@@ -671,7 +790,7 @@ header .nav-search-close:hover svg {
 }
 
 /* offset page content for fixed header */
-@media (width >= 900px) {
+@media (width >= 1024px) {
   header .nav-wrapper {
     padding-top: var(--utility-bar-height);
     box-shadow: 0 3px 6px rgb(0 0 0 / 16%);

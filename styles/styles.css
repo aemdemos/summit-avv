@@ -50,7 +50,7 @@
   --max-width-page: 1920px;
 
   /* nav heights */
-  --nav-height: 64px;
+  --nav-height: 40px;
   --breadcrumbs-height: 34px;
   --header-height: var(--nav-height);
 
@@ -83,8 +83,9 @@
   src: local('Arial');
 }
 
-@media (width >= 900px) {
+@media (width >= 1024px) {
   :root {
+    --nav-height: 64px;
     --heading-font-size-xxl: 42px;
     --heading-font-size-xl: 28px;
     --heading-font-size-l: 24px;
@@ -127,7 +128,7 @@ footer .footer[data-block-status="loaded"] {
   visibility: visible;
 }
 
-@media (width >= 900px) {
+@media (width >= 1024px) {
   body[data-breadcrumbs] {
     --header-height: calc(var(--nav-height) + var(--utility-bar-height) + var(--breadcrumbs-height));
   }
