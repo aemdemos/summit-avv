@@ -70,8 +70,9 @@ function toggleAllNavSections(sections, expanded = false) {
 }
 
 function resetMobileSubMenus(nav) {
-  nav.querySelectorAll('.mobile-active').forEach((el) => el.classList.remove('mobile-active'));
-  nav.classList.remove('mobile-level-2', 'mobile-level-3', 'mobile-lang-open');
+  nav.querySelectorAll('.mobile-expanded').forEach((el) => el.classList.remove('mobile-expanded'));
+  nav.querySelectorAll('.mobile-toggle').forEach((btn) => { btn.textContent = '+'; });
+  nav.classList.remove('mobile-lang-open');
 }
 
 function lockBodyScroll(lock) {
@@ -153,72 +154,43 @@ function getPageOverlay() {
   return overlay;
 }
 
-function createBackButton(onClick) {
-  const li = document.createElement('li');
-  li.className = 'mobile-back-item';
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'mobile-back-btn';
-  const arrow = document.createElement('span');
-  arrow.className = 'mobile-back-arrow';
-  btn.append(arrow);
-  btn.append('Back');
-  btn.addEventListener('click', onClick);
-  li.append(btn);
-  return li;
-}
-
-function setupMobileL2(nav, subMenu, l2) {
-  const l2Sub = l2.querySelector(':scope > ul');
-  if (!l2Sub) return;
-  l2.classList.add('mobile-has-submenu');
-
-  const l2Click = l2.querySelector(':scope > a') || l2.querySelector(':scope > strong');
-  if (!l2Click) return;
-
-  l2Click.addEventListener('click', (e) => {
-    if (isDesktop.matches) return;
-    e.preventDefault();
-    subMenu.querySelectorAll(':scope > li.mobile-active').forEach((el) => el.classList.remove('mobile-active'));
-    l2.classList.add('mobile-active');
-    nav.classList.add('mobile-level-3');
-  });
-
-  if (!l2Sub.querySelector(':scope > .mobile-back-item')) {
-    l2Sub.prepend(createBackButton(() => {
-      l2.classList.remove('mobile-active');
-      nav.classList.remove('mobile-level-3');
-    }));
-  }
-}
-
 function setupMobileSubMenus(nav) {
   const navSections = nav.querySelector('.nav-sections');
   if (!navSections) return;
 
   navSections.querySelectorAll(':scope .default-content-wrapper > ul > li.nav-drop').forEach((l1) => {
-    const link = l1.querySelector(':scope > a');
     const subMenu = l1.querySelector(':scope > ul');
-    if (!link || !subMenu) return;
+    if (!subMenu) return;
 
-    link.addEventListener('click', (e) => {
+    // Create L1 toggle button
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'mobile-toggle';
+    toggle.textContent = '+';
+    toggle.setAttribute('aria-label', 'Expand submenu');
+    toggle.addEventListener('click', () => {
       if (isDesktop.matches) return;
-      e.preventDefault();
-      resetMobileSubMenus(nav);
-      l1.classList.add('mobile-active');
-      nav.classList.add('mobile-level-2');
+      const expanded = l1.classList.toggle('mobile-expanded');
+      toggle.textContent = expanded ? '\u2212' : '+';
     });
+    l1.insertBefore(toggle, l1.firstChild);
 
-    if (!subMenu.querySelector(':scope > .mobile-back-item')) {
-      subMenu.prepend(createBackButton(() => {
-        l1.classList.remove('mobile-active');
-        nav.classList.remove('mobile-level-2', 'mobile-level-3');
-      }));
-    }
-
+    // Setup L2 toggles for items with sub-menus
     subMenu.querySelectorAll(':scope > li').forEach((l2) => {
-      if (l2.classList.contains('mobile-back-item')) return;
-      setupMobileL2(nav, subMenu, l2);
+      const l2Sub = l2.querySelector(':scope > ul');
+      if (!l2Sub) return;
+
+      const l2Toggle = document.createElement('button');
+      l2Toggle.type = 'button';
+      l2Toggle.className = 'mobile-toggle mobile-toggle-l2';
+      l2Toggle.textContent = '+';
+      l2Toggle.setAttribute('aria-label', 'Expand submenu');
+      l2Toggle.addEventListener('click', () => {
+        if (isDesktop.matches) return;
+        const expanded = l2.classList.toggle('mobile-expanded');
+        l2Toggle.textContent = expanded ? '\u2212' : '+';
+      });
+      l2.insertBefore(l2Toggle, l2.firstChild);
     });
   });
 }

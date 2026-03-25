@@ -541,28 +541,17 @@ header nav .nav-sections ul > li > ul > li {
     line-height: 24px;
   }
 
-  header nav .nav-sections .default-content-wrapper > ul > li.nav-drop > a::before {
-    content: '+';
-    font-size: 27px;
-    font-weight: 400;
-    color: #6b04a8;
-    line-height: 1;
-    margin-right: 12px;
-    flex-shrink: 0;
+  header nav .nav-sections .default-content-wrapper > ul > li.nav-drop > a {
+    padding-left: 45px;
   }
 
   header nav .nav-sections ul > li > ul {
     display: none;
   }
 
-  /* === Mobile sub-menu panels === */
+  /* === Mobile accordion sub-menus === */
 
-  /* Back button */
-  header nav .mobile-back-item {
-    padding: 14px 0 24px;
-    list-style: none;
-  }
-
+  /* Back button (used by language panel) */
   header nav .mobile-back-btn {
     display: flex;
     align-items: center;
@@ -588,134 +577,115 @@ header nav .nav-sections ul > li > ul > li {
     transform: rotate(45deg);
   }
 
-  /* Level 2: hide all L1 items except the active one */
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul {
-    padding-top: 16px;
+  /* L1 items with sub-menus */
+  header nav .nav-sections .default-content-wrapper > ul > li.nav-drop {
+    position: relative;
   }
 
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul > li {
-    display: none;
-  }
-
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul > li.mobile-active {
-    display: block;
+  /* Toggle button (shared L1 + L2) */
+  header nav .mobile-toggle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: none;
+    border: none;
+    cursor: pointer;
     padding: 0;
+    margin: 0;
+    font-family: var(--body-font-family);
+    line-height: 1;
   }
 
-  /* Hide the L1 link text when showing its sub-menu */
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul > li.mobile-active > a {
-    display: none;
+  /* L1 toggle */
+  header nav .nav-sections .default-content-wrapper > ul > li > .mobile-toggle {
+    width: 45px;
+    height: 40px;
+    padding-left: 22px;
+    font-size: 27px;
+    font-weight: 400;
+    color: #6b04a8;
   }
 
-  /* Show the L2 sub-menu */
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul {
+  /* L2 toggle */
+  header nav .mobile-toggle-l2 {
+    width: 66px;
+    height: 41px;
+    padding-left: 45px;
+    font-size: 22px;
+    font-weight: 400;
+    color: #545c69;
+  }
+
+  /* Show L2 when L1 is expanded */
+  header nav .nav-sections .default-content-wrapper > ul > li.mobile-expanded > ul {
     display: block;
     margin: 0;
-    padding: 0 0 0 16px;
+    padding: 0;
     list-style: none;
   }
 
   /* L2 items */
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li {
-    padding: 0 0 20px;
-  }
-
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li > a,
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li > strong {
-    font-family: var(--heading-font-family);
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--text-color);
-    text-decoration: none;
-    display: block;
+  header nav .nav-sections .default-content-wrapper > ul > li.mobile-expanded > ul > li {
     position: relative;
-    padding-right: 40px;
-    line-height: 16px;
-  }
-
-  /* Vertical separator line for L2 items with sub-menus */
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li.mobile-has-submenu > a::before,
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li.mobile-has-submenu > strong::before {
-    content: '';
-    position: absolute;
-    right: 28px;
-    top: -2px;
-    bottom: -2px;
-    width: 1px;
-    background: #c7ccd6;
-  }
-
-  /* Arrow for L2 items with sub-menus */
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li.mobile-has-submenu > a::after,
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li.mobile-has-submenu > strong::after {
-    content: '';
-    position: absolute;
-    right: 11px;
-    top: 50%;
-    transform: translateY(-50%) rotate(-45deg);
-    width: 8px;
-    height: 8px;
-    border-right: 1.5px solid #363d42;
-    border-bottom: 1.5px solid #363d42;
-  }
-
-  /* L2 sub-items hidden by default */
-  header nav.mobile-level-2 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li > ul {
-    display: none;
-  }
-
-  /* Hide utility and lang switcher at L2 */
-  header nav.mobile-level-2[aria-expanded='true'] .nav-utility,
-  header nav.mobile-level-2[aria-expanded='true'] .nav-mobile-lang {
-    display: none;
-  }
-
-  /* Level 3: hide all L2 items except the active one */
-  header nav.mobile-level-3 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li {
-    display: none;
-  }
-
-  header nav.mobile-level-3 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li.mobile-back-item {
-    display: none;
-  }
-
-  header nav.mobile-level-3 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li.mobile-active {
-    display: block;
+    background: #f2f3fb;
     padding: 0;
   }
 
-  /* Hide the L2 link text when showing L3 */
-  header nav.mobile-level-3 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li.mobile-active > a,
-  header nav.mobile-level-3 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li.mobile-active > strong {
+  header nav .nav-sections .default-content-wrapper > ul > li.mobile-expanded > ul > li > a,
+  header nav .nav-sections .default-content-wrapper > ul > li.mobile-expanded > ul > li > strong {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    font-family: var(--heading-font-family);
+    font-size: 15px;
+    font-weight: 400;
+    color: #363d42;
+    text-decoration: none;
+    padding: 0 16px 0 66px;
+    height: 41px;
+    line-height: 32px;
+  }
+
+  /* L2 sub-items hidden by default */
+  header nav .nav-sections .default-content-wrapper > ul > li.mobile-expanded > ul > li > ul {
     display: none;
   }
 
-  /* Show L3 sub-menu */
-  header nav.mobile-level-3 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li.mobile-active > ul {
+  /* Show L3 when L2 is expanded */
+  header nav .nav-sections .default-content-wrapper > ul > li.mobile-expanded > ul > li.mobile-expanded > ul {
     display: block;
     margin: 0;
-    padding: 0 0 0 16px;
+    padding: 0;
     list-style: none;
   }
 
   /* L3 items */
-  header nav.mobile-level-3 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li.mobile-active > ul > li {
-    padding: 0 0 24px;
+  header nav .nav-sections .default-content-wrapper > ul > li.mobile-expanded > ul > li.mobile-expanded > ul > li {
+    background: #fff;
+    padding: 0;
+    border-bottom: none;
   }
 
-  header nav.mobile-level-3 .nav-sections .default-content-wrapper > ul > li.mobile-active > ul > li.mobile-active > ul > li a {
+  header nav .nav-sections .default-content-wrapper > ul > li.mobile-expanded > ul > li.mobile-expanded > ul > li a {
+    display: flex;
+    align-items: center;
     font-family: var(--heading-font-family);
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
-    color: var(--text-color);
+    color: #363d42;
     text-decoration: none;
-    display: block;
-    line-height: 16px;
+    padding: 0 16px 0 66px;
+    height: 41px;
+    line-height: 32px;
   }
 
   /* Hide images in mobile sub-menus */
-  header nav.mobile-level-2 .nav-sections li.nav-image,
-  header nav.mobile-level-3 .nav-sections li.nav-image {
+  header nav .nav-sections li.mobile-expanded li.nav-image {
     display: none;
   }
 }
@@ -805,7 +775,7 @@ header nav .nav-sections ul > li > ul > li {
   }
 
   /* hide mobile-only elements on desktop */
-  header nav .mobile-back-item {
+  header nav .mobile-toggle {
     display: none;
   }
 
