@@ -115,23 +115,23 @@ main .hero-banner + .hero-banner-announcement a:hover {
   text-decoration: underline;
 }
 
-/* Mobile hero — match reference site sizing */
-@media (width < 900px) {
+/* Mobile hero — match reference site (breakpoints: 768 / 1024) */
+@media (width < 768px) {
   main .hero-banner {
     min-height: 280px;
   }
 
   main .hero-banner > div:nth-child(2) {
-    padding: 44px 16px;
+    padding: 44px 16px 80px;
   }
 
   main .hero-banner h1 {
-    font-size: 28px;
-    line-height: 36px;
+    font-size: 1.75rem;
+    line-height: 2.25rem;
   }
 
   main .hero-banner p {
-    font-size: 14px;
+    font-size: 0.825rem;
     line-height: 22px;
   }
 
@@ -140,17 +140,38 @@ main .hero-banner + .hero-banner-announcement a:hover {
     padding: 13px 32px;
     font-weight: 400;
   }
+
+  main .hero-banner + .hero-banner-announcement {
+    padding: 24px 16px;
+  }
+
+  main .hero-banner + .hero-banner-announcement p {
+    font-size: 0.825rem;
+    line-height: 22px;
+  }
 }
 
-@media (width >= 900px) {
-  /* Content area = 579px including padding (matches reference hero height) */
+/* Tablet */
+@media (width >= 768px) {
   main .hero-banner > div:nth-child(2) {
     box-sizing: border-box;
+    padding: 146px 0 0;
+    justify-content: flex-start;
+  }
+
+  main .hero-banner h1 {
+    font-size: 2.625rem;
+    line-height: 3.25rem;
+  }
+}
+
+/* Desktop */
+@media (width >= 1024px) {
+  main .hero-banner > div:nth-child(2) {
     min-height: 579px;
     max-width: 600px;
     padding: 162px 0 0;
     margin: 0 auto 0 max(32px, calc((100% - 1392px) / 2 + 16px));
-    justify-content: flex-start;
   }
 
   main .hero-banner h1 {
