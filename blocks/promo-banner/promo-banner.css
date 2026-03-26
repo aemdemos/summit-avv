@@ -21,6 +21,11 @@ main .promo-banner {
   background-color: var(--brand-purple);
 }
 
+/* Block-name row from Document Authoring (not rendered) */
+main .promo-banner .promo-banner-block-name {
+  display: none;
+}
+
 /* Background image row — absolute behind content */
 main .promo-banner .promo-banner-bg {
   position: absolute;
@@ -45,8 +50,8 @@ main .promo-banner .promo-banner-bg img {
   height: 100%;
 }
 
-/* Content row */
-main .promo-banner > div:not(.promo-banner-bg) {
+/* Content row (exclude DA block-name row and background row) */
+main .promo-banner > div:not(.promo-banner-bg, .promo-banner-block-name) {
   position: relative;
   z-index: 1;
   flex: 1;
@@ -93,7 +98,28 @@ main .promo-banner a.button:hover {
   background-color: #e5e5e5;
 }
 
-/* Dark variant — solid dark purple, no background image */
+/*
+ * Dark purple bar — preferred: section-metadata Style includes "dark" (section gets .dark).
+ * Legacy: block variant "promo-banner (dark)" still adds .dark on the block.
+ */
+main .section.promo-banner-container.dark {
+  background-color: var(--brand-purple-dark);
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+main .section.promo-banner-container.dark > div {
+  max-width: unset;
+  margin: 0;
+  padding: 0;
+}
+
+main .section.promo-banner-container.dark .promo-banner {
+  background-color: transparent;
+}
+
+/* Legacy block-level variant (deprecated; use section metadata "dark" instead) */
 main .promo-banner.dark {
   background-color: var(--brand-purple-dark);
 }
@@ -103,7 +129,7 @@ main .promo-banner.dark {
     min-height: 340px;
   }
 
-  main .promo-banner > div:not(.promo-banner-bg) {
+  main .promo-banner > div:not(.promo-banner-bg, .promo-banner-block-name) {
     max-width: 700px;
     margin: 0 auto 0 max(32px, calc((100% - 1392px) / 2 + 16px));
     padding: 60px 0;
