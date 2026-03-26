@@ -149,7 +149,7 @@ main .hero-banner a.button:hover {
   main .hero-banner .hero-banner-content {
     min-height: 579px;
     max-width: 600px;
-    padding: 162px 16px 0;
+    padding: 150px 0px 16px 10px;
     margin: 0 auto 0 max(32px, calc((100% - 1392px) / 2 + 16px));
   }
 

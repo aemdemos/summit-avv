@@ -13,11 +13,11 @@ function isTitleRow(row) {
 
 /** Copy beyond the image wrapper (headings, text paras, links). */
 function hasCopyBesideImage(row) {
-  if (row.querySelector('h1, h2, h3')) return true;
-  if ([...row.querySelectorAll('p')].some((p) => !p.querySelector('picture') && p.textContent.trim())) {
-    return true;
-  }
-  return Boolean(row.querySelector('a[href]'));
+  return Boolean(
+    row.querySelector('h1, h2, h3')
+      || [...row.querySelectorAll('p')].some((p) => !p.querySelector('picture') && p.textContent.trim())
+      || row.querySelector('a[href]'),
+  );
 }
 
 function dataRows(block) {
@@ -85,29 +85,13 @@ function tagMediaAndContent(block) {
  * @param {Element} block
  */
 export default function decorate(block) {
-  let rows = [...block.children];
-
-  if (rows.length === 3 && picIn(rows[0]) && !picIn(rows[2])) {
-    rows[2].classList.add('hero-banner-announcement');
-    block.after(rows[2]);
-    rows = [...block.children];
-  }
-  if (rows.length === 4 && picIn(rows[1]) && !picIn(rows[3])) {
-    rows[3].classList.add('hero-banner-announcement');
-    block.after(rows[3]);
-    rows = [...block.children];
-  }
-
-  rows.forEach((row) => {
+  [...block.children].forEach((row) => {
     if (isTitleRow(row)) row.classList.add('hero-banner-block-name');
   });
 
-  const combined = dataRows(block).find((r) => picIn(r) && hasCopyBesideImage(r));
+  const layout = dataRows(block);
+  const combined = layout.find((r) => picIn(r) && hasCopyBesideImage(r));
   if (combined) splitCombinedRow(combined);
   removeGhostRows(block);
   tagMediaAndContent(block);
-
-  if (!block.querySelector('.hero-banner-media picture')) {
-    block.classList.add('no-image');
-  }
 }
