@@ -91,27 +91,27 @@ main .hero-banner a.button:hover {
   color: #0056b3;
 }
 
-/* Announcement row — dark bar at bottom of hero */
-main .hero-banner .hero-banner-announcement {
+/* Announcement row — dark bar below hero (moved outside block by JS) */
+main .hero-banner + .hero-banner-announcement {
   background-color: var(--dark-color);
   padding: 41px 15px;
   text-align: center;
 }
 
-main .hero-banner .hero-banner-announcement p {
+main .hero-banner + .hero-banner-announcement p {
   color: #fff;
   font-size: var(--body-font-size-m);
   line-height: 29px;
   margin: 0;
 }
 
-main .hero-banner .hero-banner-announcement a {
+main .hero-banner + .hero-banner-announcement a {
   color: #fff;
   font-family: var(--heading-font-family);
   font-weight: 600;
 }
 
-main .hero-banner .hero-banner-announcement a:hover {
+main .hero-banner + .hero-banner-announcement a:hover {
   text-decoration: underline;
 }
 
