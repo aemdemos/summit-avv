@@ -115,6 +115,33 @@ main .hero-banner + .hero-banner-announcement a:hover {
   text-decoration: underline;
 }
 
+/* Mobile hero — match reference site sizing */
+@media (width < 900px) {
+  main .hero-banner {
+    min-height: 280px;
+  }
+
+  main .hero-banner > div:nth-child(2) {
+    padding: 44px 16px;
+  }
+
+  main .hero-banner h1 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  main .hero-banner p {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  main .hero-banner a.button {
+    font-size: 14px;
+    padding: 13px 32px;
+    font-weight: 400;
+  }
+}
+
 @media (width >= 900px) {
   /* Content area = 579px including padding (matches reference hero height) */
   main .hero-banner > div:nth-child(2) {
