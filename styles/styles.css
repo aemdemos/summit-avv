@@ -369,3 +369,104 @@ main .section.full-bleed img {
   width: 100%;
   display: block;
 }
+
+/* Hero announcement: default section content + section-metadata style "dark, full-bleed" (no custom block) */
+main > .section.hero-banner-container:has(+ .section.dark.full-bleed) {
+  margin-bottom: 0;
+}
+
+main > .section.hero-banner-container + .section.dark.full-bleed {
+  margin-top: 0;
+  padding: 24px 15px;
+  text-align: center;
+}
+
+main > .section.hero-banner-container + .section.dark.full-bleed p {
+  color: #fff;
+  font-size: var(--body-font-size-m);
+  line-height: 29px;
+  margin: 0;
+}
+
+main > .section.hero-banner-container + .section.dark.full-bleed a {
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+}
+
+main > .section.hero-banner-container + .section.dark.full-bleed a:hover {
+  text-decoration: underline;
+}
+
+@media (width < 768px) {
+  main > .section.hero-banner-container + .section.dark.full-bleed p {
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+
+@media (width >= 768px) {
+  main > .section.hero-banner-container + .section.dark.full-bleed p {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 29px;
+  }
+}
+
+@media (width >= 1024px) {
+  main > .section.hero-banner-container + .section.dark.full-bleed p {
+    font-size: var(--body-font-size-m);
+    line-height: 29px;
+    margin-bottom: 29px;
+  }
+}
+
+/* Legacy: announcement row still hoisted out of the hero-banner table by hero-banner.js */
+main .hero-banner + .hero-banner-announcement {
+  background-color: var(--dark-color);
+  padding: 24px 15px;
+  text-align: center;
+}
+
+main .hero-banner + .hero-banner-announcement p {
+  color: #fff;
+  font-size: var(--body-font-size-m);
+  line-height: 29px;
+  margin: 0 0 29px;
+}
+
+main .hero-banner + .hero-banner-announcement a {
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+}
+
+main .hero-banner + .hero-banner-announcement a:hover {
+  text-decoration: underline;
+}
+
+/* Hoisted row sits next to the hero inside the same section wrapper */
+main .hero-banner-container .hero-banner + .hero-banner-announcement {
+  margin-top: 0;
+}
+
+@media (width < 768px) {
+  main .hero-banner + .hero-banner-announcement p {
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+
+@media (width >= 768px) {
+  main .hero-banner + .hero-banner-announcement p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+@media (width >= 1024px) {
+  main .hero-banner + .hero-banner-announcement p {
+    font-size: var(--body-font-size-m);
+    line-height: 29px;
+  }
+}
