@@ -94,7 +94,7 @@ main .hero-banner a.button:hover {
 /* Announcement row — dark bar below hero (moved outside block by JS) */
 main .hero-banner + .hero-banner-announcement {
   background-color: var(--dark-color);
-  padding: 41px 15px;
+  padding: 24px 15px;
   text-align: center;
 }
 
@@ -102,7 +102,7 @@ main .hero-banner + .hero-banner-announcement p {
   color: #fff;
   font-size: var(--body-font-size-m);
   line-height: 29px;
-  margin: 0;
+  margin: 0 0 29px;
 }
 
 main .hero-banner + .hero-banner-announcement a {
@@ -118,11 +118,13 @@ main .hero-banner + .hero-banner-announcement a:hover {
 /* Mobile hero — match reference site (breakpoints: 768 / 1024) */
 @media (width < 768px) {
   main .hero-banner {
-    min-height: 280px;
+    min-height: 400px;
   }
 
   main .hero-banner > div:nth-child(2) {
-    padding: 44px 16px 80px;
+    padding: 108px 0 80px 16px;
+    width: 55%;
+    margin: 0;
   }
 
   main .hero-banner h1 {
@@ -138,30 +140,40 @@ main .hero-banner + .hero-banner-announcement a:hover {
   main .hero-banner a.button {
     font-size: 14px;
     padding: 13px 32px;
-    font-weight: 400;
   }
 
   main .hero-banner + .hero-banner-announcement {
-    padding: 24px 16px;
+    padding: 24px 15px;
   }
 
   main .hero-banner + .hero-banner-announcement p {
-    font-size: 0.825rem;
+    font-size: 14px;
     line-height: 22px;
   }
 }
 
 /* Tablet */
 @media (width >= 768px) {
+  main .hero-banner {
+    min-height: 560px;
+  }
+
   main .hero-banner > div:nth-child(2) {
     box-sizing: border-box;
-    padding: 146px 0 0;
+    padding: 146px 16px 0;
+    max-width: 50%;
+    margin: 0;
     justify-content: flex-start;
   }
 
   main .hero-banner h1 {
     font-size: 2.625rem;
     line-height: 3.25rem;
+  }
+
+  main .hero-banner + .hero-banner-announcement p {
+    font-size: 16px;
+    line-height: 24px;
   }
 }
 
@@ -170,7 +182,7 @@ main .hero-banner + .hero-banner-announcement a:hover {
   main .hero-banner > div:nth-child(2) {
     min-height: 579px;
     max-width: 600px;
-    padding: 162px 0 0;
+    padding: 162px 16px 0;
     margin: 0 auto 0 max(32px, calc((100% - 1392px) / 2 + 16px));
   }
 
@@ -182,5 +194,10 @@ main .hero-banner + .hero-banner-announcement a:hover {
 
   main .hero-banner p {
     margin-bottom: 16px;
+  }
+
+  main .hero-banner + .hero-banner-announcement p {
+    font-size: var(--body-font-size-m);
+    line-height: 29px;
   }
 }
