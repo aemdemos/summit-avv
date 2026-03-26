@@ -5,8 +5,9 @@ export default function decorate(block) {
     block.classList.add('no-image');
   }
 
-  // If 3 rows: image, content, announcement — mark the announcement row
+  // If 3 rows: image, content, announcement — move announcement after the block
   if (rows.length === 3) {
     rows[2].classList.add('hero-banner-announcement');
+    block.after(rows[2]);
   }
 }
