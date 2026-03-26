@@ -81,7 +81,7 @@ main .promo-banner p {
   margin-bottom: var(--spacing-s);
 }
 
-/* CTA button — white bg, blue text */
+/* CTA button — white bg, blue text (same for image and section-metadata dark variants) */
 main .promo-banner a.button {
   background-color: #fff;
   color: var(--accent-blue);
@@ -92,6 +92,7 @@ main .promo-banner a.button {
   font-size: var(--body-font-size-m);
   font-weight: 600;
   margin-top: var(--spacing-s);
+  text-decoration: none;
 }
 
 main .promo-banner a.button:hover {
@@ -99,7 +100,9 @@ main .promo-banner a.button:hover {
 }
 
 /*
- * Dark purple bar — preferred: section-metadata Style includes "dark" (section gets .dark).
+ * Same section-metadata keyword "dark" as elsewhere, but this section is also
+ * .promo-banner-container (added because it contains a promo-banner block). This rule is more
+ * specific than main .section.dark and replaces the gray bar with brand purple for this block only.
  * Legacy: block variant "promo-banner (dark)" still adds .dark on the block.
  */
 main .section.promo-banner-container.dark {
