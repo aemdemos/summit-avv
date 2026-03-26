@@ -336,6 +336,12 @@ main .section.light-gray h2 {
   margin-bottom: 0;
 }
 
+/*
+ * Section metadata "style: dark" → class .dark on the section (scripts.js decorateSections).
+ * Default background: --dark-color (neutral gray) — used e.g. hero announcement strip.
+ * If the section contains a promo-banner block, it also gets .promo-banner-container; that
+ * combination is overridden in blocks/promo-banner/promo-banner.css to use brand purple instead.
+ */
 main .section.dark {
   background-color: var(--dark-color);
   color: #fff;
@@ -343,12 +349,13 @@ main .section.dark {
   padding: var(--spacing-m) 0;
 }
 
-main .section.dark a {
+/* Text links only — blocks style their own .button CTAs (e.g. promo-banner) */
+main .section.dark a:not(.button) {
   color: #fff;
   font-weight: 700;
 }
 
-main .section.dark a:hover {
+main .section.dark a:not(.button):hover {
   text-decoration: underline;
 }
 
@@ -409,7 +416,7 @@ main > .section.hero-banner-container + .section.dark.full-bleed a:hover {
   main > .section.hero-banner-container + .section.dark.full-bleed p {
     font-size: 16px;
     line-height: 24px;
-    margin-bottom:29px;
+    margin-bottom: 29px;
   }
 }
 
