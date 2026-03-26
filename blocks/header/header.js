@@ -3,7 +3,7 @@ import { loadFragment } from '../fragment/fragment.js';
 import { ensureDOMPurify } from '../../scripts/scripts.js';
 
 // media query match that indicates mobile/tablet width
-const isDesktop = window.matchMedia('(min-width: 900px)');
+const isDesktop = window.matchMedia('(min-width: 1024px)');
 
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
@@ -26,6 +26,9 @@ function closeOnEscape(e) {
 function closeOnFocusLost(e) {
   const nav = e.currentTarget;
   if (!nav.contains(e.relatedTarget)) {
+    // On mobile, null relatedTarget means focus was lost due to DOM/CSS changes
+    // (e.g. hiding an element), not the user clicking outside — don't close.
+    if (!isDesktop.matches && !e.relatedTarget) return;
     const navSections = nav.querySelector('.nav-sections');
     if (!navSections) return;
     const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
@@ -66,6 +69,16 @@ function toggleAllNavSections(sections, expanded = false) {
   });
 }
 
+function resetMobileSubMenus(nav) {
+  nav.querySelectorAll('.mobile-expanded').forEach((el) => el.classList.remove('mobile-expanded'));
+  nav.querySelectorAll('.mobile-toggle').forEach((btn) => { btn.textContent = '+'; });
+  nav.classList.remove('mobile-lang-open');
+}
+
+function lockBodyScroll(lock) {
+  document.documentElement.classList.toggle('nav-open', lock);
+}
+
 /**
  * Toggles the entire nav
  * @param {Element} nav The container element
@@ -75,9 +88,11 @@ function toggleAllNavSections(sections, expanded = false) {
 function toggleMenu(nav, navSections, forceExpanded = null) {
   const expanded = forceExpanded !== null ? !forceExpanded : nav.getAttribute('aria-expanded') === 'true';
   const button = nav.querySelector('.nav-hamburger button');
-  document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
+  lockBodyScroll(!(expanded || isDesktop.matches));
   nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
   toggleAllNavSections(navSections, expanded || isDesktop.matches ? 'false' : 'true');
+  // reset mobile sub-menu state when closing
+  if (expanded) resetMobileSubMenus(nav);
   button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
   // enable nav dropdown keyboard accessibility
   if (navSections) {
@@ -137,6 +152,47 @@ function getPageOverlay() {
     document.body.append(overlay);
   }
   return overlay;
+}
+
+function setupMobileSubMenus(nav) {
+  const navSections = nav.querySelector('.nav-sections');
+  if (!navSections) return;
+
+  navSections.querySelectorAll(':scope .default-content-wrapper > ul > li.nav-drop').forEach((l1) => {
+    const subMenu = l1.querySelector(':scope > ul');
+    if (!subMenu) return;
+
+    // Create L1 toggle button
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'mobile-toggle';
+    toggle.textContent = '+';
+    toggle.setAttribute('aria-label', 'Expand submenu');
+    toggle.addEventListener('click', () => {
+      if (isDesktop.matches) return;
+      const expanded = l1.classList.toggle('mobile-expanded');
+      toggle.textContent = expanded ? '\u2212' : '+';
+    });
+    l1.insertBefore(toggle, l1.firstChild);
+
+    // Setup L2 toggles for items with sub-menus
+    subMenu.querySelectorAll(':scope > li').forEach((l2) => {
+      const l2Sub = l2.querySelector(':scope > ul');
+      if (!l2Sub) return;
+
+      const l2Toggle = document.createElement('button');
+      l2Toggle.type = 'button';
+      l2Toggle.className = 'mobile-toggle mobile-toggle-l2';
+      l2Toggle.textContent = '+';
+      l2Toggle.setAttribute('aria-label', 'Expand submenu');
+      l2Toggle.addEventListener('click', () => {
+        if (isDesktop.matches) return;
+        const expanded = l2.classList.toggle('mobile-expanded');
+        l2Toggle.textContent = expanded ? '\u2212' : '+';
+      });
+      l2.insertBefore(l2Toggle, l2.firstChild);
+    });
+  });
 }
 
 function decorateNavSections(nav) {
@@ -225,6 +281,94 @@ function decorateLanguageSwitcher(nav) {
   });
 }
 
+function buildMobileLangSwitcher(nav) {
+  const langSwitcher = nav.querySelector('.nav-lang-switcher');
+  if (!langSwitcher) return;
+
+  const langList = langSwitcher.querySelector('.nav-lang-dropdown');
+  if (!langList) return;
+
+  // Determine current language from the list (match current path)
+  const firstLangLink = langList.querySelector('li a');
+  let currentLang = firstLangLink ? firstLangLink.textContent.trim() : '';
+  langList.querySelectorAll('li a').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (href && window.location.pathname.startsWith(href.replace(/\/$/, ''))) {
+      currentLang = a.textContent.trim();
+    }
+  });
+
+  // Bottom bar trigger (globe icon + current language + right arrow)
+  const mobileLang = document.createElement('div');
+  mobileLang.className = 'nav-mobile-lang';
+
+  const globeSpan = document.createElement('span');
+  globeSpan.className = 'icon icon-globe';
+  const globeImg = document.createElement('img');
+  globeImg.setAttribute('data-icon-name', 'globe');
+  globeImg.src = '/icons/globe.svg';
+  globeImg.alt = '';
+  globeImg.loading = 'lazy';
+  globeSpan.append(globeImg);
+
+  const langText = document.createElement('span');
+  langText.className = 'nav-mobile-lang-text';
+  langText.textContent = currentLang;
+
+  const langArrow = document.createElement('span');
+  langArrow.className = 'nav-mobile-lang-arrow';
+
+  mobileLang.append(globeSpan, langText, langArrow);
+
+  // Language selection panel (hidden by default, shown when trigger is clicked)
+  const langPanel = document.createElement('div');
+  langPanel.className = 'nav-mobile-lang-panel';
+
+  const backBtn = document.createElement('button');
+  backBtn.type = 'button';
+  backBtn.className = 'mobile-back-btn';
+  const backArrow = document.createElement('span');
+  backArrow.className = 'mobile-back-arrow';
+  backBtn.append(backArrow);
+  backBtn.append('Back');
+  langPanel.append(backBtn);
+
+  const panelList = document.createElement('ul');
+  langList.querySelectorAll('li').forEach((li) => {
+    const a = li.querySelector('a');
+    if (!a) return;
+    const newLi = document.createElement('li');
+    const newA = document.createElement('a');
+    newA.href = a.getAttribute('href') || '#';
+    const icon = li.querySelector('.icon');
+    if (icon) newA.append(icon.cloneNode(true));
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'nav-mobile-lang-name';
+    nameSpan.textContent = a.textContent.trim();
+    newA.append(nameSpan);
+    if (a.textContent.trim() === currentLang) {
+      const check = document.createElement('span');
+      check.className = 'nav-mobile-lang-check';
+      newA.append(check);
+    }
+    newLi.append(newA);
+    panelList.append(newLi);
+  });
+  langPanel.append(panelList);
+
+  // Open lang panel
+  mobileLang.addEventListener('click', () => {
+    nav.classList.add('mobile-lang-open');
+  });
+
+  // Close lang panel (back button)
+  backBtn.addEventListener('click', () => {
+    nav.classList.remove('mobile-lang-open');
+  });
+
+  nav.append(mobileLang, langPanel);
+}
+
 function decorateNavTools(nav) {
   const navTools = nav.querySelector('.nav-tools');
   if (!navTools) return;
@@ -267,7 +411,9 @@ export default async function decorate(block) {
   decorateNavBrand(nav);
   decorateNavUtility(nav);
   decorateNavSections(nav);
+  setupMobileSubMenus(nav);
   decorateLanguageSwitcher(nav);
+  buildMobileLangSwitcher(nav);
   decorateNavTools(nav);
   decorateIcons(nav);
 
