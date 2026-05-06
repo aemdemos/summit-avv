@@ -1,0 +1,31 @@
+{
+  "total": 22,
+  "limit": 22,
+  "offset": 0,
+  "data": [
+    { "name": "Accordion", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/accordion" },
+    { "name": "Card", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/card" },
+    { "name": "Card Carousel", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/card-carousel" },
+    { "name": "Cards", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/cards" },
+    { "name": "Cards Feature", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/cards-feature" },
+    { "name": "Carousel", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/carousel" },
+    { "name": "Columns", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/columns" },
+    { "name": "Columns Highlight", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/columns-highlight" },
+    { "name": "Embed", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/embed" },
+    { "name": "Footer", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/footer" },
+    { "name": "Form", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/form" },
+    { "name": "Fragment", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/fragment" },
+    { "name": "Header", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/header" },
+    { "name": "Hero", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/hero" },
+    { "name": "Hero Banner", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/hero-banner" },
+    { "name": "Modal", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/modal" },
+    { "name": "Promo Banner", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/promo-banner" },
+    { "name": "Quote", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/quote" },
+    { "name": "Search", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/search" },
+    { "name": "Table", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/table" },
+    { "name": "Tabs", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/tabs" },
+    { "name": "Video", "path": "https://content.da.live/aemdemos/summit-avv/docs/library/blocks/video" }
+  ],
+  ":type": "sheet"
+}
+
